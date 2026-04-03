@@ -12,8 +12,10 @@ import Privacy from './components/Privacy';
 import Terms from './components/Terms';
 import { Document } from './types';
 
-function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'contact' | 'privacy' | 'terms'>('home');
+type Page = 'home' | 'contact' | 'privacy' | 'terms';
+
+export default function App({ initialPage }: { initialPage?: Page }) {
+  const [currentPage, setCurrentPage] = useState<Page>(initialPage ?? 'home');
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -60,5 +62,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

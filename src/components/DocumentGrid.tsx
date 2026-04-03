@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { FileText, TrendingUp, AlertCircle } from 'lucide-react';
+import { FileText, TrendingUp } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { Document } from '../types';
+import { documents as seoDocuments } from '../data/documents';
+import type { DocumentData } from '../data/documents';
 
 interface DocumentGridProps {
   searchQuery: string;
@@ -9,134 +11,32 @@ interface DocumentGridProps {
   onDocumentClick: (document: Document) => void;
 }
 
-const MOCK_DOCUMENTS: Document[] = [
-  {
-    id: '1',
-    title: 'Sale/Conveyance Deed',
-    description: 'Legal document transferring property ownership from seller to buyer. Includes details about the property, parties involved, and terms and conditions of the sale.',
-    category: 'Property Deeds',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/XHAn7GH',
-    download_link: 'https://docs.google.com/document/d/1GAFf-rh38eqNIP75ezN1wU6CTPbT5ZIJ/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '2',
-    title: 'Agreement Relating to Deposit of Title Deeds',
-    description: 'Agreement for depositing title deeds with a lender as security for a loan. Outlines terms under which title deeds are held and conditions for their return.',
-    category: 'Mortgage Documents',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/KpqCRVuV',
-    download_link: 'https://docs.google.com/document/d/1kyicJ9Fe3qYxfc62_qr4NhwSSK1XLWLt/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '3',
-    title: 'Promissory Note',
-    description: 'Written promise to pay a specified amount of money to a specified person at a specified date or on demand. Commonly used in financial transactions.',
-    category: 'Legal Formats',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/dg3ZqQeA',
-    download_link: 'https://docs.google.com/document/d/1P5asjfM8evtMl66ohG1xc9Hw_hDmgbHN/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '4',
-    title: 'Lease Deed',
-    description: 'Legal agreement between landlord and tenant for rental of property. Specifies lease terms, rent amount, duration, and responsibilities of both parties.',
-    category: 'Agreements',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/lYQ4FqKT',
-    download_link: 'https://docs.google.com/document/d/1twhuvKE2XNGavJ50KEkQTlpofYgsypoR/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '5',
-    title: 'Sale Agreement',
-    description: 'Preliminary agreement between buyer and seller outlining terms and conditions of property sale, pending execution of the final sale deed.',
-    category: 'Agreements',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/HMWDa2fT',
-    download_link: 'https://docs.google.com/document/d/19ndwcCgkZb0NashNBoBCqiyq8h7WmbBn/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '6',
-    title: 'Construction Agreement',
-    description: 'Contract between property owner and builder detailing terms, conditions, and specifications for construction of a building or structure.',
-    category: 'Agreements',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/96zfdSoO',
-    download_link: 'https://docs.google.com/document/d/1qZmK82NqBopHrD8yO80Q78REQr-LRmTh/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '7',
-    title: 'Gift Deed',
-    description: 'Legal document used to voluntarily transfer ownership of property from one person to another without any exchange of money or consideration.',
-    category: 'Property Deeds',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/SVRepr7b',
-    download_link: 'https://docs.google.com/document/d/14xhfPrUqISWnt3AZIPJHbe7s-mIXh1jr/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '8',
-    title: 'Applying for Encumbrance Certificate (EC)',
-    description: 'Application for obtaining an Encumbrance Certificate or Certified Copy, which provides details of all registered transactions on a property.',
-    category: 'CMDA Forms',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/pbTi2g0V',
-    download_link: 'https://docs.google.com/document/d/1xGOJ4nn24476Q0a0x8AXJ20Ct9zAsZ89/edit',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '9',
-    title: 'Form A',
-    description: 'Application for permission for subdivision, layout or reconstitution or amalgamation of land for building purposes, and for change of use of land.',
-    category: 'CMDA Forms',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/LkRbz5t',
-    download_link: 'https://drive.google.com/file/d/18FJCjfHVFmGITRQFh5CEb98KUYVYaiX3/view',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-  {
-    id: '10',
-    title: 'Form B',
-    description: 'Application for permission for carrying out construction of building or structure, or change of use of building.',
-    category: 'CMDA Forms',
-    price: 9,
-    razorpay_link: 'https://rzp.io/rzp/edsuohXy',
-    download_link: 'https://drive.google.com/file/d/1cR6Lby_rOOsCls0EogUntU3EKbUxIY2Q/view',
-    is_featured: true,
-    download_count: 0,
-    created_at: new Date().toISOString(),
-  },
-];
+const MOCK_DOCUMENTS: Document[] = seoDocuments.map((doc, idx) => ({
+  id: String(idx + 1),
+  slug: doc.slug,
+  title: doc.title,
+  description: doc.description,
+  category: doc.category ?? 'Legal Templates',
+  price: doc.price ?? 9,
+  razorpay_link: doc.paymentLink,
+  download_link: '', // Razorpay-only downloads; keep placeholder to satisfy the Document type.
+  is_featured: true,
+  download_count: 0,
+  created_at: new Date().toISOString(),
+}));
+
+function slugify(input: string) {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
 
 export default function DocumentGrid({ searchQuery, selectedCategory, onDocumentClick }: DocumentGridProps) {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [featuredDocs, setFeaturedDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDocuments();
@@ -144,17 +44,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
 
   async function fetchDocuments() {
     setLoading(true);
-    setError(null);
-
-    if (!isSupabaseConfigured) {
-      setDocuments(MOCK_DOCUMENTS);
-      setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
-      setLoading(false);
-      return;
-    }
-
-    if (!supabase) {
-      setError('Database configuration error');
+    if (!isSupabaseConfigured || !supabase) {
       setDocuments(MOCK_DOCUMENTS);
       setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
       setLoading(false);
@@ -162,26 +52,22 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
     }
 
     try {
-      const { data, error: fetchError } = await supabase
-        .from('documents')
-        .select('*')
-        .order('created_at', { ascending: true });
+      const { data } = await supabase.from('documents').select('*').order('created_at', { ascending: true });
 
-      if (fetchError) {
-        console.error('Error fetching documents:', fetchError);
+      if (data) {
+        setDocuments(data as Document[]);
+        setFeaturedDocs((data as Document[]).filter((doc) => doc.is_featured));
+      } else {
         setDocuments(MOCK_DOCUMENTS);
         setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
-      } else if (data) {
-        setDocuments(data);
-        setFeaturedDocs(data.filter((doc) => doc.is_featured));
       }
     } catch (err) {
-      console.error('Fetch error:', err);
+      console.error('Error fetching documents:', err);
       setDocuments(MOCK_DOCUMENTS);
       setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   }
 
   const filteredDocuments = documents.filter((doc) => {
@@ -250,6 +136,13 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
 }
 
 function DocumentCard({ document, onClick }: { document: Document; onClick: () => void }) {
+  // Prefer the SEO dataset slug so deep-links match the corresponding /docs/:slug page.
+  const seoDoc: DocumentData | undefined =
+    seoDocuments.find((d) => d.paymentLink === document.razorpay_link) ??
+    seoDocuments.find((d) => d.slug === document.slug) ??
+    seoDocuments.find((d) => d.title === document.title);
+
+  const cardSlug = seoDoc?.slug ?? document.slug ?? slugify(document.title);
   return (
     <div
       onClick={onClick}
@@ -264,7 +157,13 @@ function DocumentCard({ document, onClick }: { document: Document; onClick: () =
         </span>
       </div>
       <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
-        {document.title}
+        <a
+          href={`/docs/${cardSlug}`}
+          onClick={(e) => e.stopPropagation()}
+          style={{ color: 'inherit', textDecoration: 'none' }}
+        >
+          {document.title}
+        </a>
       </h3>
       <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
         {document.description}
