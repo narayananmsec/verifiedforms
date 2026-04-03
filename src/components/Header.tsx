@@ -65,6 +65,11 @@ export default function Header() {
     );
   }
 
+  function goContact() {
+    setMenuOpen(false);
+    navigate('/contact');
+  }
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -82,8 +87,8 @@ export default function Header() {
           </Link>
 
           {isHome && (
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
-              <div className="relative w-full">
+            <div className="hidden md:flex items-center flex-1 min-w-0 max-w-md mx-8">
+              <div className="relative w-full min-w-0">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
@@ -96,7 +101,7 @@ export default function Header() {
             </div>
           )}
 
-          <div className="flex items-center">
+          <div className="flex items-center shrink-0 relative z-10">
             <nav className="hidden md:flex items-center space-x-6">
               <Link
                 to="/"
@@ -113,8 +118,9 @@ export default function Header() {
               >
                 FAQ
               </button>
-              <Link
-                to="/contact"
+              <button
+                type="button"
+                onClick={goContact}
                 className={`text-sm font-medium transition-colors ${
                   currentPage === 'contact'
                     ? 'text-emerald-600'
@@ -122,7 +128,7 @@ export default function Header() {
                 }`}
               >
                 Contact
-              </Link>
+              </button>
             </nav>
 
             <button
@@ -179,9 +185,9 @@ export default function Header() {
           >
             FAQ
           </button>
-          <Link
-            to="/contact"
-            onClick={() => setMenuOpen(false)}
+          <button
+            type="button"
+            onClick={goContact}
             className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors mt-1 ${
               currentPage === 'contact'
                 ? 'bg-gray-50 text-emerald-600'
@@ -189,7 +195,7 @@ export default function Header() {
             }`}
           >
             Contact
-          </Link>
+          </button>
         </div>
       </div>
     </header>
