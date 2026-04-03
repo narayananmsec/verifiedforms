@@ -1,21 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
 import { useHomeSearch } from '../context/HomeSearchContext';
 
-type NavPage = 'home' | 'contact' | 'privacy' | 'terms' | 'other';
+type NavPage = 'home' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
 
 function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/') return 'home';
   if (pathname === '/contact') return 'contact';
+  if (pathname === '/faq') return 'faq';
   if (pathname === '/privacy') return 'privacy';
   if (pathname === '/terms') return 'terms';
   return 'other';
 }
 
+function linkNavClass(isActive: boolean) {
+  return `text-sm font-medium transition-colors ${
+    isActive ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
+  }`;
+}
+
+function mobileNavClass(isActive: boolean) {
+  return `block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+    isActive ? 'bg-gray-50 text-emerald-600' : 'text-gray-700 hover:bg-gray-50'
+  }`;
+}
+
 export default function Header() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { searchQuery, setSearchQuery } = useHomeSearch();
 
   const currentPage = navPageFromPath(location.pathname);
@@ -53,30 +65,16 @@ export default function Header() {
     };
   }, [menuOpen]);
 
-  function goFAQ() {
-    setMenuOpen(false);
-    const onHome = location.pathname === '/';
-    if (!onHome) navigate('/');
-    window.setTimeout(
-      () => {
-        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
-      },
-      onHome ? 100 : 280
-    );
-  }
-
-  function goContact() {
-    setMenuOpen(false);
-    navigate('/contact');
-  }
-
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link
             to="/"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => {
+              setMenuOpen(false);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="flex items-center space-x-2 cursor-pointer rounded-lg outline-none hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
           >
             <FileText className="h-8 w-8 text-emerald-600" />
@@ -103,32 +101,15 @@ export default function Header() {
 
           <div className="flex items-center shrink-0 relative z-10">
             <nav className="hidden md:flex items-center space-x-6">
-              <Link
-                to="/"
-                className={`text-sm font-medium transition-colors ${
-                  currentPage === 'home' ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
-                }`}
-              >
+              <Link to="/" className={linkNavClass(currentPage === 'home')}>
                 Home
               </Link>
-              <button
-                type="button"
-                onClick={goFAQ}
-                className="text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors"
-              >
+              <Link to="/faq" className={linkNavClass(currentPage === 'faq')}>
                 FAQ
-              </button>
-              <button
-                type="button"
-                onClick={goContact}
-                className={`text-sm font-medium transition-colors ${
-                  currentPage === 'contact'
-                    ? 'text-emerald-600'
-                    : 'text-gray-700 hover:text-emerald-600'
-                }`}
-              >
+              </Link>
+              <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>
                 Contact
-              </button>
+              </Link>
             </nav>
 
             <button
@@ -167,35 +148,19 @@ export default function Header() {
         }`}
       >
         <div className="px-4 sm:px-6 lg:px-8 py-2">
-          <Link
-            to="/"
-            onClick={() => setMenuOpen(false)}
-            className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-              currentPage === 'home'
-                ? 'bg-gray-50 text-emerald-600'
-                : 'text-gray-700 hover:bg-gray-50'
-            }`}
-          >
+          <Link to="/" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'home')} mt-0`}>
             Home
           </Link>
-          <button
-            type="button"
-            onClick={goFAQ}
-            className="w-full text-left px-4 py-3 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-1"
-          >
+          <Link to="/faq" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'faq')} mt-1`}>
             FAQ
-          </button>
-          <button
-            type="button"
-            onClick={goContact}
-            className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors mt-1 ${
-              currentPage === 'contact'
-                ? 'bg-gray-50 text-emerald-600'
-                : 'text-gray-700 hover:bg-gray-50'
-            }`}
+          </Link>
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            className={`${mobileNavClass(currentPage === 'contact')} mt-1`}
           >
             Contact
-          </button>
+          </Link>
         </div>
       </div>
     </header>

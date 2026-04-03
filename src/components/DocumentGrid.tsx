@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FileText, TrendingUp } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { Document } from '../types';
@@ -171,13 +172,14 @@ function DocumentCard({ document, onClick }: { document: Document; onClick: () =
         </span>
       </div>
       <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
-        <a
-          href={`/docs/${cardSlug}`}
+        <Link
+          to={`/docs/${cardSlug}`}
           onClick={(e) => e.stopPropagation()}
+          className="text-inherit no-underline"
           style={{ color: 'inherit', textDecoration: 'none' }}
         >
           {document.title}
-        </a>
+        </Link>
       </h3>
       <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">
         {document.description}

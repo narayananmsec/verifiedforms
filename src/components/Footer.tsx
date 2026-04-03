@@ -1,32 +1,25 @@
+import { Link } from 'react-router-dom';
 import { FileText } from 'lucide-react';
 
-interface FooterProps {
-  onNavigate: (page: 'home' | 'contact' | 'privacy' | 'terms') => void;
-}
-
-export default function Footer({ onNavigate }: FooterProps) {
-  const handleFAQClick = () => {
-    onNavigate('home');
-    setTimeout(() => {
-      document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  };
-
+export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300 py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4 cursor-pointer" onClick={() => onNavigate('home')}>
+            <Link
+              to="/"
+              className="flex items-center space-x-2 mb-4 cursor-pointer rounded-lg outline-none hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900"
+            >
               <FileText className="h-8 w-8 text-emerald-500" />
               <div>
                 <h3 className="text-lg font-bold text-white">ServiceLocal</h3>
                 <p className="text-xs text-gray-400">Legal Templates</p>
               </div>
-            </div>
+            </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
-              Your trusted source for CMDA forms and legal document templates in India.
-              Affordable, instant, and reliable.
+              Your trusted source for CMDA forms and legal document templates in India. Affordable, instant, and
+              reliable.
             </p>
           </div>
 
@@ -34,14 +27,14 @@ export default function Footer({ onNavigate }: FooterProps) {
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button onClick={() => onNavigate('home')} className="hover:text-emerald-500 transition-colors text-left">
+                <Link to="/" className="hover:text-emerald-500 transition-colors">
                   Browse Documents
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={handleFAQClick} className="hover:text-emerald-500 transition-colors text-left">
+                <Link to="/faq" className="hover:text-emerald-500 transition-colors">
                   FAQ
-                </button>
+                </Link>
               </li>
               <li>
                 <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
@@ -55,20 +48,17 @@ export default function Footer({ onNavigate }: FooterProps) {
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <button onClick={() => onNavigate('privacy')} className="hover:text-emerald-500 transition-colors text-left">
+                <Link to="/privacy" className="hover:text-emerald-500 transition-colors">
                   Privacy Policy
-                </button>
+                </Link>
               </li>
               <li>
-                <button onClick={() => onNavigate('terms')} className="hover:text-emerald-500 transition-colors text-left">
+                <Link to="/terms" className="hover:text-emerald-500 transition-colors">
                   Terms & Conditions
-                </button>
+                </Link>
               </li>
               <li>
-                <a
-                  href="mailto:help@servicelocal.in"
-                  className="hover:text-emerald-500 transition-colors"
-                >
+                <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
                   help@servicelocal.in
                 </a>
               </li>
@@ -77,9 +67,7 @@ export default function Footer({ onNavigate }: FooterProps) {
         </div>
 
         <div className="border-t border-gray-800 pt-8 text-center text-sm">
-          <p className="text-gray-400">
-            © {new Date().getFullYear()} ServiceLocal. All rights reserved.
-          </p>
+          <p className="text-gray-400">© {new Date().getFullYear()} ServiceLocal. All rights reserved.</p>
           <p className="text-gray-500 mt-2 text-xs">
             All documents are templates. Please consult with a legal professional for your specific needs.
           </p>

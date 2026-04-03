@@ -1,22 +1,29 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import App from './App.tsx';
 import './index.css';
 import DocPage from './pages/DocPage';
 import Header from './components/Header';
+import ScrollToTop from './components/ScrollToTop';
 import { HomeSearchProvider } from './context/HomeSearchContext';
+import Home from './pages/Home';
+import ContactPage from './pages/ContactPage';
+import FaqPage from './pages/FaqPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <HomeSearchProvider>
+        <ScrollToTop />
         <Header />
         <Routes>
-          <Route path="/" element={<App initialPage="home" />} />
-          <Route path="/contact" element={<App initialPage="contact" />} />
-          <Route path="/privacy" element={<App initialPage="privacy" />} />
-          <Route path="/terms" element={<App initialPage="terms" />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsPage />} />
           <Route path="/docs/:slug" element={<DocPage />} />
         </Routes>
       </HomeSearchProvider>
