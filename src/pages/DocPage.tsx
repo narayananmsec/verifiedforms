@@ -25,48 +25,45 @@ export default function DocPage() {
 
   if (!doc) {
     return (
-      <div style={{ maxWidth: '700px', margin: 'auto', padding: '40px' }}>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 py-10 md:py-16">
+        <div className="max-w-[800px] mx-auto bg-white rounded-2xl shadow-lg p-5 md:p-10">
         <Helmet>
           <title>Document Not Found | ServiceLocal</title>
           <meta name="description" content="The requested document page could not be found." />
           <meta name="keywords" content="document not found, ServiceLocal" />
         </Helmet>
-        <h1>Not Found</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900">Not Found</h1>
+        </div>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: '700px', margin: 'auto', padding: '40px' }}>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 px-4 py-10 md:py-16">
+      <div className="max-w-[800px] mx-auto bg-white rounded-2xl shadow-lg p-5 md:p-10">
       <Helmet>
         <title>{doc.title} – Download @ ₹9 | ServiceLocal</title>
         <meta name="description" content={doc.description} />
         <meta name="keywords" content={keywords} />
       </Helmet>
 
-      <h1>{doc.title}</h1>
-      <p>{expandedDescription}</p>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">{doc.title}</h1>
+        <p className="text-gray-700 leading-relaxed mb-6">{expandedDescription}</p>
 
-      <ul>
-        <li>✔ Instant download after payment</li>
-        <li>✔ Editable format</li>
-        <li>✔ Ready to use</li>
-      </ul>
+        <ul className="space-y-2 text-gray-700 mb-6">
+          <li>✔ Instant download after payment</li>
+          <li>✔ Editable format</li>
+          <li>✔ Ready to use</li>
+        </ul>
 
-      <h2>₹9</h2>
+        <h2 className="text-3xl font-bold text-emerald-600 mb-5">₹9</h2>
 
-      <a href={doc.paymentLink} target="_blank" rel="noopener noreferrer">
-        <button
-          style={{
-            padding: '12px 20px',
-            background: 'green',
-            color: '#fff',
-            cursor: 'pointer'
-          }}
-        >
-          Pay &amp; Download
-        </button>
-      </a>
+        <a href={doc.paymentLink} target="_blank" rel="noopener noreferrer">
+          <button className="px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors shadow-md hover:shadow-lg">
+            Pay &amp; Download
+          </button>
+        </a>
+      </div>
     </div>
   );
 }
