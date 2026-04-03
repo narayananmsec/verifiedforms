@@ -37,10 +37,25 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   const [documents, setDocuments] = useState<Document[]>([]);
   const [featuredDocs, setFeaturedDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   useEffect(() => {
     fetchDocuments();
   }, []);
+
+  useEffect(() => {
+    // Keep UI responsive and treat "  " as empty input.
+    const normalized = searchQuery.trim();
+    setSearchTerm(normalized);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const t = window.setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+    return () => window.clearTimeout(t);
+  }, [searchTerm]);
 
   async function fetchDocuments() {
     setLoading(true);
@@ -71,10 +86,9 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   }
 
   const filteredDocuments = documents.filter((doc) => {
-    const matchesSearch =
-      searchQuery === '' ||
-      doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      doc.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const term = debouncedSearchTerm.trim().toLowerCase();
+    const title = (doc.title ?? '').toLowerCase();
+    const matchesSearch = term === '' || title.includes(term);
     const matchesCategory = selectedCategory === 'All' || doc.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -121,7 +135,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
         {filteredDocuments.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-600">No documents found matching your search.</p>
+            <p className="text-gray-600">No documents found</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
