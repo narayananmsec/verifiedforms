@@ -1,17 +1,33 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
+import { useHomeSearch } from '../context/HomeSearchContext';
 
-interface HeaderProps {
-  currentPage: 'home' | 'contact' | 'privacy' | 'terms';
-  onNavigate: (page: 'home' | 'contact' | 'privacy' | 'terms') => void;
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+type NavPage = 'home' | 'contact' | 'privacy' | 'terms' | 'other';
+
+function navPageFromPath(pathname: string): NavPage {
+  if (pathname === '/') return 'home';
+  if (pathname === '/contact') return 'contact';
+  if (pathname === '/privacy') return 'privacy';
+  if (pathname === '/terms') return 'terms';
+  return 'other';
 }
 
-export default function Header({ currentPage, onNavigate, searchQuery, onSearchChange }: HeaderProps) {
+export default function Header() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { searchQuery, setSearchQuery } = useHomeSearch();
+
+  const currentPage = navPageFromPath(location.pathname);
+  const isHome = currentPage === 'home';
+
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -37,40 +53,35 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
     };
   }, [menuOpen]);
 
-  function goHome() {
-    setMenuOpen(false);
-    onNavigate('home');
-  }
-
   function goFAQ() {
     setMenuOpen(false);
-    if (currentPage !== 'home') onNavigate('home');
-    setTimeout(() => {
-      document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
-  }
-
-  function goContact() {
-    setMenuOpen(false);
-    onNavigate('contact');
+    const onHome = location.pathname === '/';
+    if (!onHome) navigate('/');
+    window.setTimeout(
+      () => {
+        document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
+      },
+      onHome ? 100 : 280
+    );
   }
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div
-            className="flex items-center space-x-2 cursor-pointer"
-            onClick={goHome}
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center space-x-2 cursor-pointer rounded-lg outline-none hover:opacity-90 transition-opacity focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
           >
             <FileText className="h-8 w-8 text-emerald-600" />
             <div>
-              <h1 className="text-xl font-bold text-gray-900">ServiceLocal</h1>
-              <p className="text-xs text-gray-500">Legal Templates</p>
+              <span className="block text-xl font-bold text-gray-900">ServiceLocal</span>
+              <span className="block text-xs text-gray-500">Legal Templates</span>
             </div>
-          </div>
+          </Link>
 
-          {currentPage === 'home' && (
+          {isHome && (
             <div className="hidden md:flex items-center flex-1 max-w-md mx-8">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -78,7 +89,7 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
                   type="text"
                   placeholder="Search documents..."
                   value={searchQuery}
-                  onChange={(e) => onSearchChange(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
@@ -87,22 +98,23 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
 
           <div className="flex items-center">
             <nav className="hidden md:flex items-center space-x-6">
-              <button
-                onClick={goHome}
+              <Link
+                to="/"
                 className={`text-sm font-medium transition-colors ${
                   currentPage === 'home' ? 'text-emerald-600' : 'text-gray-700 hover:text-emerald-600'
                 }`}
               >
                 Home
-              </button>
+              </Link>
               <button
+                type="button"
                 onClick={goFAQ}
                 className="text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors"
               >
                 FAQ
               </button>
-              <button
-                onClick={goContact}
+              <Link
+                to="/contact"
                 className={`text-sm font-medium transition-colors ${
                   currentPage === 'contact'
                     ? 'text-emerald-600'
@@ -110,7 +122,7 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
                 }`}
               >
                 Contact
-              </button>
+              </Link>
             </nav>
 
             <button
@@ -126,7 +138,7 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
           </div>
         </div>
 
-        {currentPage === 'home' && (
+        {isHome && (
           <div className="md:hidden pb-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -134,7 +146,7 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
                 type="text"
                 placeholder="Search documents..."
                 value={searchQuery}
-                onChange={(e) => onSearchChange(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
@@ -149,32 +161,35 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
         }`}
       >
         <div className="px-4 sm:px-6 lg:px-8 py-2">
-          <button
-            onClick={goHome}
-            className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
               currentPage === 'home'
                 ? 'bg-gray-50 text-emerald-600'
                 : 'text-gray-700 hover:bg-gray-50'
             }`}
           >
             Home
-          </button>
+          </Link>
           <button
+            type="button"
             onClick={goFAQ}
             className="w-full text-left px-4 py-3 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors mt-1"
           >
             FAQ
           </button>
-          <button
-            onClick={goContact}
-            className={`w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors mt-1 ${
+          <Link
+            to="/contact"
+            onClick={() => setMenuOpen(false)}
+            className={`block w-full text-left px-4 py-3 rounded-md text-sm font-medium transition-colors mt-1 ${
               currentPage === 'contact'
                 ? 'bg-gray-50 text-emerald-600'
                 : 'text-gray-700 hover:bg-gray-50'
             }`}
           >
             Contact
-          </button>
+          </Link>
         </div>
       </div>
     </header>
