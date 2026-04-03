@@ -1,8 +1,8 @@
 import { Search, FileText } from 'lucide-react';
 
 interface HeaderProps {
-  currentPage: 'home' | 'contact';
-  onNavigate: (page: 'home' | 'contact') => void;
+  currentPage: 'home' | 'contact' | 'privacy' | 'terms';
+  onNavigate: (page: 'home' | 'contact' | 'privacy' | 'terms') => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
 }
@@ -46,6 +46,17 @@ export default function Header({ currentPage, onNavigate, searchQuery, onSearchC
               }`}
             >
               Home
+            </button>
+            <button
+              onClick={() => {
+                if (currentPage !== 'home') onNavigate('home');
+                setTimeout(() => {
+                  document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              className="text-sm font-medium text-gray-700 hover:text-emerald-600 transition-colors"
+            >
+              FAQ
             </button>
             <button
               onClick={() => onNavigate('contact')}

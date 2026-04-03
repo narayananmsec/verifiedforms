@@ -8,10 +8,12 @@ import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import DocumentModal from './components/DocumentModal';
+import Privacy from './components/Privacy';
+import Terms from './components/Terms';
 import { Document } from './types';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'contact'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'contact' | 'privacy' | 'terms'>('home');
   const [selectedDocument, setSelectedDocument] = useState<Document | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -39,11 +41,15 @@ function App() {
           </div>
           <FAQ />
         </>
-      ) : (
+      ) : currentPage === 'contact' ? (
         <Contact />
+      ) : currentPage === 'privacy' ? (
+        <Privacy />
+      ) : (
+        <Terms />
       )}
 
-      <Footer />
+      <Footer onNavigate={setCurrentPage} />
 
       {selectedDocument && (
         <DocumentModal

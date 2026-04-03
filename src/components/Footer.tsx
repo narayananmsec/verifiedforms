@@ -1,12 +1,23 @@
 import { FileText } from 'lucide-react';
 
-export default function Footer() {
+interface FooterProps {
+  onNavigate: (page: 'home' | 'contact' | 'privacy' | 'terms') => void;
+}
+
+export default function Footer({ onNavigate }: FooterProps) {
+  const handleFAQClick = () => {
+    onNavigate('home');
+    setTimeout(() => {
+      document.getElementById('faq-section')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  };
+
   return (
     <footer className="bg-gray-900 text-gray-300 py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <div className="flex items-center space-x-2 mb-4">
+            <div className="flex items-center space-x-2 mb-4 cursor-pointer" onClick={() => onNavigate('home')}>
               <FileText className="h-8 w-8 text-emerald-500" />
               <div>
                 <h3 className="text-lg font-bold text-white">ServiceLocal</h3>
@@ -23,14 +34,14 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#documents" className="hover:text-emerald-500 transition-colors">
+                <button onClick={() => onNavigate('home')} className="hover:text-emerald-500 transition-colors text-left">
                   Browse Documents
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#faq" className="hover:text-emerald-500 transition-colors">
+                <button onClick={handleFAQClick} className="hover:text-emerald-500 transition-colors text-left">
                   FAQ
-                </a>
+                </button>
               </li>
               <li>
                 <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
@@ -41,8 +52,18 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-white font-semibold mb-4">Contact</h4>
+            <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
+              <li>
+                <button onClick={() => onNavigate('privacy')} className="hover:text-emerald-500 transition-colors text-left">
+                  Privacy Policy
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('terms')} className="hover:text-emerald-500 transition-colors text-left">
+                  Terms & Conditions
+                </button>
+              </li>
               <li>
                 <a
                   href="mailto:help@servicelocal.in"
@@ -50,9 +71,6 @@ export default function Footer() {
                 >
                   help@servicelocal.in
                 </a>
-              </li>
-              <li className="text-gray-400">
-                Tamil Nadu, India
               </li>
             </ul>
           </div>
