@@ -1,61 +1,72 @@
 const docLink = (slug, label) => `<a href="/docs/${slug}" class="text-emerald-700 font-semibold underline underline-offset-2 hover:text-emerald-800">${label}</a>`;
 
-const makePost = ({ intro, meaning, steps, documents, tips, conclusion }) =>
+const makePost = ({
+  intro,
+  meaning,
+  steps,
+  documents,
+  tips,
+  conclusion,
+  labels = {
+    intro: 'Introduction',
+    meaning: 'Explanation and Meaning',
+    steps: 'Step-by-Step Process',
+    documents: 'Required Documents',
+    tips: 'Important Tips',
+    checklist: 'Practical Checklist Before You Proceed',
+    conclusion: 'Conclusion',
+  },
+  checklist = {
+    paragraphs: [
+      'Before acting on this topic, compare the latest official record with your own document set. Revenue portals, registration databases, and court systems do not always update at the same speed, so a cautious reader should verify names, dates, survey numbers, document numbers, and property descriptions across more than one source. This small verification step prevents many avoidable mistakes in legal and property work.',
+      'It also helps to maintain a single working file containing ID proofs, acknowledgments, payment receipts, supporting annexures, earlier records, and the final version of any deed or online extract. When a bank, advocate, registrar, or revenue official asks a follow-up question, organized records allow you to answer quickly instead of rebuilding the file from scattered screenshots and forwarded messages.',
+      'Many people lose time not because the process is impossible, but because they move ahead with incomplete paperwork or unverified details. A careful checklist-based approach gives you stronger evidence, better clarity, and a cleaner path whether the next step is registration, mutation, filing, correction, or formal legal action.',
+    ],
+    points: [
+      'Cross-check all names and addresses with government ID before submission or execution.',
+      'Keep screenshots or receipts for every online step, especially where fees or OTP verification are involved.',
+      'Read property schedules, survey details, and case numbers digit by digit rather than by visual guesswork.',
+      'Do not rely only on oral assurances when a document, portal entry, or order copy can confirm the position.',
+      'Preserve older records as well as new ones because historical continuity often matters in legal review.',
+      'Where the facts are disputed or the stakes are high, seek document review before taking an irreversible step.',
+    ],
+  },
+}) =>
   `
     <section>
-      <h2>Introduction</h2>
+      <h2>${labels.intro}</h2>
       ${intro.map((paragraph) => `<p>${paragraph}</p>`).join('')}
     </section>
     <section>
-      <h2>Explanation and Meaning</h2>
+      <h2>${labels.meaning}</h2>
       ${meaning.map((paragraph) => `<p>${paragraph}</p>`).join('')}
     </section>
     <section>
-      <h2>Step-by-Step Process</h2>
+      <h2>${labels.steps}</h2>
       ${steps.map((step) => `<h3>${step.heading}</h3><p>${step.text}</p>`).join('')}
     </section>
     <section>
-      <h2>Required Documents</h2>
+      <h2>${labels.documents}</h2>
       <ul>
         ${documents.map((item) => `<li>${item}</li>`).join('')}
       </ul>
     </section>
     <section>
-      <h2>Important Tips</h2>
+      <h2>${labels.tips}</h2>
       <ul>
         ${tips.map((item) => `<li>${item}</li>`).join('')}
       </ul>
     </section>
     <section>
-      <h2>Practical Checklist Before You Proceed</h2>
-      <p>
-        Before acting on this topic, compare the latest official record with your own document set. Revenue portals,
-        registration databases, and court systems do not always update at the same speed, so a cautious reader should
-        verify names, dates, survey numbers, document numbers, and property descriptions across more than one source.
-        This small verification step prevents many avoidable mistakes in legal and property work.
-      </p>
-      <p>
-        It also helps to maintain a single working file containing ID proofs, acknowledgments, payment receipts,
-        supporting annexures, earlier records, and the final version of any deed or online extract. When a bank,
-        advocate, registrar, or revenue official asks a follow-up question, organized records allow you to answer
-        quickly instead of rebuilding the file from scattered screenshots and forwarded messages.
-      </p>
+      <h2>${labels.checklist}</h2>
+      ${checklist.paragraphs.slice(0, 2).map((paragraph) => `<p>${paragraph}</p>`).join('')}
       <ul>
-        <li>Cross-check all names and addresses with government ID before submission or execution.</li>
-        <li>Keep screenshots or receipts for every online step, especially where fees or OTP verification are involved.</li>
-        <li>Read property schedules, survey details, and case numbers digit by digit rather than by visual guesswork.</li>
-        <li>Do not rely only on oral assurances when a document, portal entry, or order copy can confirm the position.</li>
-        <li>Preserve older records as well as new ones because historical continuity often matters in legal review.</li>
-        <li>Where the facts are disputed or the stakes are high, seek document review before taking an irreversible step.</li>
+        ${checklist.points.map((item) => `<li>${item}</li>`).join('')}
       </ul>
-      <p>
-        Many people lose time not because the process is impossible, but because they move ahead with incomplete
-        paperwork or unverified details. A careful checklist-based approach gives you stronger evidence, better clarity,
-        and a cleaner path whether the next step is registration, mutation, filing, correction, or formal legal action.
-      </p>
+      <p>${checklist.paragraphs[2]}</p>
     </section>
     <section>
-      <h2>Conclusion</h2>
+      <h2>${labels.conclusion}</h2>
       ${conclusion.map((paragraph) => `<p>${paragraph}</p>`).join('')}
     </section>
   `;
@@ -63,189 +74,261 @@ const makePost = ({ intro, meaning, steps, documents, tips, conclusion }) =>
 export const blogs = [
   {
     slug: 'how-to-fill-rental-agreement-form-tamil',
-    title: 'How to Fill Rental Agreement Form in Tamil',
+    title: 'வாடகை ஒப்பந்தப் படிவம் எப்படி நிரப்புவது',
     description:
-      'Learn how to fill a rental agreement form in Tamil with step-by-step guidance, key clauses, required documents, and practical tips for landlords and tenants.',
+      'வாடகை ஒப்பந்தம் எப்படி எழுதுவது, எந்த விவரங்கள் கட்டாயம் சேர்க்க வேண்டும், எந்த ஆவணங்கள் தேவை, என்ன தவறுகள் தவிர்க்க வேண்டும் என்பதற்கான தமிழில் வழிகாட்டி.',
     content: makePost({
       intro: [
-        `Many people search for how to fill rental agreement form in Tamil when they want a simple, legally clear document for a house, flat, or shop lease. In Tamil Nadu, rental arrangements are often discussed orally first, but problems usually start later when rent, advance amount, lock-in period, repairs, or notice terms are not written properly.`,
-        `A properly filled rental agreement reduces confusion between landlord and tenant and gives both sides a record they can rely on if a dispute arises. Whether you are renting out a residential property in Chennai or taking a small commercial space in Coimbatore, the same basic drafting discipline matters.`,
-        `If you want a ready-made format before entering the details, ${docLink('lease-deed', 'Download Lease Deed Format @ ₹9')} or ${docLink('sale-agreement', 'Download Sale Agreement Format @ ₹9')} to understand how legal templates are structured on ServiceLocal.`,
+        `தமிழ்நாட்டில் வீடு, ஃப்ளாட், கடை, அலுவலகம் போன்ற சொத்துகளை வாடகைக்கு விடும்போது பலர் முதலில் வாய்மொழியாக பேசிவிட்டு பின்னர் சிக்கலில் விழுகிறார்கள். வாடகை தொகை, அட்வான்ஸ், கால அவகாசம், மின்சாரம் யார் கட்ட வேண்டும், முன் அறிவிப்பு எத்தனை நாள் என்பவை தெளிவாக எழுதப்படாததால் பிரச்சினை உருவாகிறது.`,
+        `வாடகை ஒப்பந்தப் படிவம் சரியாக நிரப்பப்பட்டால் வீட்டுவாடகையாளர் மற்றும் வாடகையாளர் இருவருக்கும் பாதுகாப்பு கிடைக்கும். பின்னர் வாக்குவாதம் வந்தாலும் ஒப்பந்தத்தில் என்ன எழுதப்பட்டுள்ளது என்பதை அடிப்படையாக வைத்து தீர்வு காண முடியும்.`,
+        `உங்களுக்கு தயாரான format தேவைப்பட்டால் ${docLink('lease-deed', '₹9 க்கு Rental Agreement format பதிவிறக்கம் செய்ய')} அல்லது ${docLink('sale-agreement', '₹9 க்கு Sale Agreement format பார்க்க')}லாம். இதை பார்த்தால் சட்டப் படிவத்தில் எந்த வகையில் clauses எழுத வேண்டும் என்பது தெளிவாகும்.`,
       ],
       meaning: [
-        `A rental agreement is a written contract between the owner and the tenant that records the rent, security deposit, term of tenancy, permitted use of the property, maintenance responsibilities, and exit conditions. In day-to-day Tamil usage, people may call it a house rent agreement or tenancy document, but the core purpose is the same: to record the relationship clearly.`,
-        `Filling the form correctly means more than writing names and rent. You must ensure the property description matches the actual premises, the identity proof details are correct, the advance amount is written in figures and words, and the obligations of each party are specific. Vague clauses often create avoidable legal and financial trouble.`,
+        `வாடகை ஒப்பந்தம் என்பது சொத்து உரிமையாளர் மற்றும் வாடகையாளர் இடையே செய்யப்படும் எழுத்து மூல உடன்படிக்கை. இதில் மாத வாடகை, அட்வான்ஸ், ஒப்பந்த காலம், பயன்படுத்தும் நோக்கம், பராமரிப்பு பொறுப்பு, வெளியேறும் விதிமுறைகள் போன்றவை எழுதப்படும்.`,
+        `ஒப்பந்தப் படிவம் நிரப்புவது என்றால் பெயர் மற்றும் வாடகை மட்டும் எழுதுவது அல்ல. சொத்தின் முழு முகவரி சரியாக இருக்க வேண்டும், ஆதார் அல்லது PAN போன்ற அடையாள விவரங்கள் தவறாமல் இருக்க வேண்டும், பணத் தொகை எண்களிலும் எழுத்திலும் இருக்க வேண்டும், இரு தரப்பினரின் பொறுப்புகள் தெளிவாக இருக்க வேண்டும். தெளிவில்லாத ஒப்பந்தம் தான் பெரும்பாலான பிரச்சினைகளுக்கு காரணம்.`,
       ],
       steps: [
         {
-          heading: '1. Enter the full details of landlord and tenant',
-          text: 'Write the legal name, father or spouse name, age if the format asks for it, permanent address, Aadhaar or other ID reference, and phone number of both parties. Do not use nicknames or short forms that differ from identity proofs. If the owner is represented by an agent, mention that authority clearly and use a valid power of attorney reference.',
+          heading: '1. வீட்டுவாடகையாளர் மற்றும் வாடகையாளர் முழு விவரங்களை எழுதவும்',
+          text: 'இருவரின் முழுப் பெயர், தந்தை அல்லது கணவர் பெயர், நிரந்தர முகவரி, மொபைல் எண், ஆதார் அல்லது பிற ID விவரங்களை சரியாக பதிவு செய்ய வேண்டும். ஆதாரத்தில் இருக்கும் spelling எப்படி உள்ளதோ அப்படியே எழுதுவது நல்லது. Agent மூலம் ஒப்பந்தம் செய்தால் power of attorney விவரமும் சேர்க்க வேண்டும்.',
         },
         {
-          heading: '2. Describe the rented property accurately',
-          text: 'Mention the door number, street, area, town, district, PIN code, and whether the property is a flat, independent house, room, office, or shop. Add floor number, flat number, car parking, and furniture details if included. The description should be precise enough to identify the exact premises without doubt.',
+          heading: '2. சொத்து விவரத்தை தெளிவாக குறிப்பிடவும்',
+          text: 'வீட்டு எண், தெரு, பகுதி, ஊர், மாவட்டம், PIN code, மாடி எண், flat எண், shop அல்லது house என சொத்து எந்த வகை என்பது எல்லாம் எழுத வேண்டும். கார் பார்க்கிங், furniture, AC, cot போன்றவை உடன் தரப்பட்டால் அவையும் பட்டியலிடப்பட வேண்டும். பின்னர் இது எந்த property என்று குழப்பம் வரக்கூடாது.',
         },
         {
-          heading: '3. Write the rent, advance, and payment date',
-          text: 'State the monthly rent, security deposit or advance, due date for payment, payment mode, and late payment consequence if any. If the owner can revise rent after a certain period, mention the interval and method clearly. Avoid leaving blanks because later handwritten insertions create mistrust.',
+          heading: '3. மாத வாடகை, அட்வான்ஸ் மற்றும் கட்டும் தேதியை குறிப்பிடவும்',
+          text: 'மாத வாடகை எவ்வளவு, advance எவ்வளவு, எந்த தேதிக்குள் கட்ட வேண்டும், cash/UPI/bank transfer என்ன mode, தாமதம் ஆனால் penalty இருக்கிறதா போன்ற விவரங்களை எழுதவும். Rent revision இருந்தால் எத்தனை மாதத்திற்கு ஒருமுறை உயர்த்தலாம் என்றும் குறிப்பிட வேண்டும். காலியாக இடம் விடாதீர்கள்.',
         },
         {
-          heading: '4. Add the lease period and renewal terms',
-          text: 'Specify the start date and end date of the tenancy. If the agreement renews by mutual consent, say so. If there is a lock-in period, mention it clearly. In Tamil Nadu, many rental disputes happen because parties assume the duration informally but never write it in the agreement.',
+          heading: '4. ஒப்பந்த காலம் மற்றும் புதுப்பிப்பு விதிமுறையை எழுதவும்',
+          text: 'ஒப்பந்தம் எந்த தேதி முதல் எந்த தேதி வரை செல்லுபடியாகும் என்று எழுத வேண்டும். 11 மாதமா, 1 ஆண்டா, அதன் பிறகு mutual consent மூலம் renew செய்வோமா என்பதை குறிப்பிடவும். Lock-in period இருந்தால் அதைத் தெளிவாக எழுத வேண்டும். இதை எழுதாமல் விட்டால் வெளியேறும்போது தகராறு அதிகமாக வரும்.',
         },
         {
-          heading: '5. Record maintenance, utility, and notice clauses',
-          text: 'Mention who will pay electricity, water, association charges, and minor repair expenses. Include how much notice is required before vacating. Also mention whether subletting is allowed, whether commercial use is prohibited in a residential property, and whether pets or structural changes need prior approval.',
+          heading: '5. மின்சாரம், maintenance, notice period போன்றவற்றை சேர்க்கவும்',
+          text: 'மின்சாரம், தண்ணீர், association charge, minor repairs யார் கட்ட வேண்டும் என்பதை எழுத வேண்டும். வீட்டை காலி செய்யும் முன் 30 நாள் notice வேண்டுமா, 60 நாள் notice வேண்டுமா என்பதையும் சேர்க்கவும். Subletting அனுமதி உள்ளதா, commercial use செய்யலாமா, pets அனுமதி உள்ளதா என்பதையும் குறிப்பிட்டால் நல்லது.',
         },
         {
-          heading: '6. Sign and execute the document properly',
-          text: 'After checking every page, get signatures from landlord and tenant and, if possible, from witnesses. Keep copies for both sides. Depending on the property value, duration, and local practice, consider stamp paper and registration requirements. If the agreement is long term or commercially sensitive, get it reviewed before execution.',
+          heading: '6. கையொப்பம், சாட்சிகள் மற்றும் copy பாதுகாப்பு',
+          text: 'ஒவ்வொரு பக்கத்தையும் சரிபார்த்த பிறகு இரு தரப்பினரும் கையொப்பமிட வேண்டும். முடிந்தால் சாட்சிகளின் கையொப்பமும் பெறுங்கள். இருவருக்கும் தனித் copy இருக்க வேண்டும். நீண்டகால ஒப்பந்தம் என்றால் stamp paper, registration தேவையா என்பதை முன்பே பார்க்க வேண்டும்.',
         },
       ],
       documents: [
-        'Identity proof of landlord and tenant such as Aadhaar, PAN, voter ID, or passport',
-        'Address proof of both parties',
-        'Property ownership proof or prior title document of the landlord',
-        'Passport-size photos if needed for police verification or society records',
-        'Recent electricity bill or property tax receipt to verify the address',
-        'Witness details where the format includes witness signatures',
+        'வீட்டுவாடகையாளர் மற்றும் வாடகையாளரின் ஆதார், PAN, வாக்காளர் அட்டை போன்ற ID proof',
+        'இரு தரப்பினரின் address proof',
+        'சொத்து உரிமையை நிரூபிக்கும் deed அல்லது tax receipt',
+        'தேவைப்பட்டால் passport size photo',
+        'சமீபத்திய EB bill அல்லது property tax receipt',
+        'சாட்சி விவரங்கள் மற்றும் contact number',
       ],
       tips: [
-        'Match spellings of names and addresses with the supporting ID documents.',
-        'Write all money values in figures and words to reduce alteration risk.',
-        'Mention inventory items such as cot, AC, fans, or fridge if they are part of the rental.',
-        'Never leave empty lines or blank spaces in the signed form.',
-        'Discuss registration and stamp duty early if the tenancy is long term.',
-        'Use a clean template such as the ServiceLocal lease deed format instead of copying an unclear WhatsApp draft.',
+        'பெயர் மற்றும் முகவரி spelling ஆதார ஆவணத்துடன் பொருந்த வேண்டும்.',
+        'பணத் தொகைகளை எண்களிலும் எழுத்திலும் குறிப்பிடுங்கள்.',
+        'Furniture, fan, cot, AC, fridge போன்ற inventory இருந்தால் பட்டியலிடுங்கள்.',
+        'கையொப்பமிட்ட பக்கங்களில் வெற்று இடம் விடாதீர்கள்.',
+        'நீண்டகால ஒப்பந்தம் என்றால் stamp duty மற்றும் registration பற்றி முன்பே அறியுங்கள்.',
+        'WhatsApp-ல் வரும் random draft பயன்படுத்தாமல் சரியான legal format பயன்படுத்துங்கள்.',
       ],
+      labels: {
+        intro: 'அறிமுகம்',
+        meaning: 'இதன் பொருள் என்ன?',
+        steps: 'படிப்படியாக செய்யும் முறை',
+        documents: 'தேவையான ஆவணங்கள்',
+        tips: 'முக்கிய குறிப்புகள்',
+        checklist: 'செய்யும் முன் கவனிக்க வேண்டியவை',
+        conclusion: 'முடிவு',
+      },
+      checklist: {
+        paragraphs: [
+          'வாடகை ஒப்பந்தம் எழுதுவதற்கு முன் property address, survey number இருந்தால் அது, owner பெயர், tenant பெயர், advance தொகை போன்றவற்றை ஒருமுறை document-களுடன் ஒப்பிட்டு பார்க்க வேண்டும். சிறிய spelling mistake கூட பின்னர் bank account transfer, police verification அல்லது deposit refund நேரத்தில் சிக்கலாகலாம்.',
+          'ஒரே file-ல் draft copy, signed copy, ID proof, EB bill, tax receipt, payment proof போன்றவற்றை வைத்திருப்பது நல்லது. பின்னர் notice அனுப்ப வேண்டிய நிலை வந்தாலும், deposit குறித்து வாதம் ஏற்பட்டாலும் இந்த records மிகவும் உதவும்.',
+          'பலர் format இருக்கிறது என்பதால் அவசரமாக நிரப்பிவிடுகிறார்கள். ஆனால் ஒரு முறை அமைதியாக படித்து, பணம், notice, maintenance, damage, renewal போன்ற clauses சரியா என்பதை சரிபார்த்தால் பிறகு பெரிய பிரச்சினைகளை தவிர்க்க முடியும்.',
+        ],
+        points: [
+          'அனைத்து பெயர்களும் ID proof-க்கு ஏற்ப உள்ளதா என்று சரிபார்க்கவும்.',
+          'Advance மற்றும் rent தொகையில் பிழை இல்லையா என்பதை பார்க்கவும்.',
+          'ஒப்பந்த காலம் தெளிவாக உள்ளதா என்று உறுதி செய்யவும்.',
+          'வீடு காலி செய்யும் முன் notice period கட்டாயம் சேர்க்கவும்.',
+          'கையொப்பத்திற்கு முன் ஒவ்வொரு பக்கத்தையும் வாசித்து பார்க்கவும்.',
+          'Signed copy-யின் photo அல்லது scan சேமித்து வைத்துக்கொள்ளவும்.',
+        ],
+      },
       conclusion: [
-        `If you are searching for how to fill rental agreement form in Tamil, the safest approach is to treat the document as a legal record, not a casual formality. Correct party details, property description, rent terms, and notice clauses can save both sides from avoidable conflict later.`,
-        `Before signing, compare the final draft with the agreed commercial terms and keep a scanned copy safely. If you want a faster starting point, review the ${docLink('lease-deed', 'Lease Deed template on ServiceLocal')} and adapt it carefully to your rental arrangement.`,
+        `வாடகை ஒப்பந்தப் படிவம் எப்படி நிரப்புவது என்று தேடும் பலருக்கும் முக்கியமான பதில் ஒன்று தான்: இது சாதாரண காகிதம் அல்ல, சட்டப் பதிவு மதிப்பு உள்ள ஆவணம். அதனால் பெயர், முகவரி, rent, advance, notice period, maintenance போன்றவற்றை தெளிவாக எழுத வேண்டும்.`,
+        `கையொப்பத்திற்கு முன் இறுதி draft-ஐ மீண்டும் சரிபார்த்து வைத்துக்கொள்ளுங்கள். தயாரான document வேண்டும் என்றால் ${docLink('lease-deed', '₹9 க்கு Lease Deed format பதிவிறக்கம் செய்ய')}லாம்.`,
       ],
     }),
   },
   {
     slug: 'cancel-settlement-deed-tamil',
-    title: 'How to Cancel Settlement Deed in Tamil',
+    title: 'Settlement Deed ரத்து செய்வது எப்படி',
     description:
-      'Understand how to cancel a settlement deed in Tamil, when revocation is possible, the legal issues involved, and the documents usually required.',
+      'Settlement deed cancel செய்வது எப்போது சாத்தியம், unilateral cancellation சரியா, எந்த ஆவணங்கள் தேவை, எப்போது court செல்ல வேண்டும் என்பதற்கான தமிழில் வழிகாட்டி.',
     content: makePost({
       intro: [
-        `People often search for how to cancel settlement deed in Tamil after family disputes, misunderstanding, fraud allegations, or a belief that the original beneficiary is not honoring oral promises. A settlement deed usually transfers rights in immovable property, so cancellation is not as simple as tearing up a paper or making a fresh oral statement.`,
-        `In Tamil Nadu, the legal position depends on whether the settlement was conditional, whether possession was delivered, whether acceptance by the beneficiary took place, and whether the document itself contains a revocation clause. That is why many owners later discover that unilateral cancellation may not always be valid.`,
-        `If you are preparing supporting paperwork, ${docLink('revocation-settlement-deed', 'Download Revocation of Settlement Deed Format @ ₹9')} and ${docLink('cancellation-deed', 'Download Cancellation Deed Format @ ₹9')} can help you review the structure used in these situations.`,
+        `குடும்ப சொத்து விஷயங்களில் அதிகமாக தேடப்படும் கேள்விகளில் ஒன்று settlement deed cancel செய்வது எப்படி என்பதாகும். தந்தை, தாய், மூத்தவர், உறவினர் யாராவது அன்புக்காக settlement deed செய்து வைத்திருக்கலாம். ஆனால் பின்னர் குடும்பத் தகராறு, ஏமாற்றம், பராமரிப்பு இல்லாமை, அல்லது தவறான புரிதல் காரணமாக அந்த deed-ஐ ரத்து செய்ய வேண்டும் என்று எண்ணப்படலாம்.`,
+        `ஆனால் settlement deed ரத்து செய்வது வெறும் புதிய காகிதம் எழுதுவது போல எளிதல்ல. ஏற்கனவே settlement deed பதிவு செய்யப்பட்டு beneficiary ஏற்றுக்கொண்டிருந்தால், unilateral cancellation பல நேரங்களில் சட்ட ரீதியாக செல்லாது. Deed-ல் revocation clause உள்ளதா, possession கொடுக்கப்பட்டதா, condition இருந்ததா போன்றவை முக்கியம்.`,
+        `இந்த நிலைகளில் reference ஆக ${docLink('revocation-settlement-deed', '₹9 க்கு Revocation of Settlement Deed format பதிவிறக்கம் செய்ய')} அல்லது ${docLink('cancellation-deed', '₹9 க்கு Cancellation Deed format பார்க்க')}லாம்.`,
       ],
       meaning: [
-        `A settlement deed is a document through which a person transfers property, often to a family member, out of natural love and affection or as part of family arrangement planning. Once executed and accepted, it can create vested rights in favor of the beneficiary.`,
-        `Cancellation means legally undoing that transfer. In practice, this may happen by mutual cancellation, revocation under a valid clause, or a court challenge based on fraud, coercion, misrepresentation, lack of mental capacity, or failure of a condition. The method depends on the facts, and registration office practice alone does not decide the final legal validity.`,
+        `Settlement deed என்பது பொதுவாக குடும்ப உறுப்பினருக்கு சொத்தை அன்பு காரணமாக அல்லது குடும்ப ஒழுங்குக்காக மாற்றிக் கொடுக்கும் ஆவணம். இது பதிவு செய்யப்பட்டதும் beneficiary அதைப் பெற்றுக்கொண்டதும் அவருக்கு உரிமை உருவாகும்.`,
+        `Settlement deed ரத்து செய்வது என்றால் அந்த உரிமை மாற்றத்தை சட்டப்படி திரும்ப மாற்றுவது. இது mutual cancellation ஆக இருக்கலாம், deed-ல் இருந்த valid revocation clause அடிப்படையாக இருக்கலாம், அல்லது fraud, coercion, misrepresentation, mental incapacity, condition breach போன்ற காரணங்களால் court-ல் challenge செய்யப்படலாம்.`,
       ],
       steps: [
         {
-          heading: '1. Read the original settlement deed carefully',
-          text: 'Check whether the deed contains a revocation clause, any life interest retained by the settlor, or conditions that the beneficiary had to perform. Also verify whether the property was fully transferred and whether possession changed hands. These details directly affect the possible remedy.',
+          heading: '1. முதலில் original settlement deed-ஐ முழுவதும் வாசிக்கவும்',
+          text: 'அதில் revocation clause இருக்கிறதா, settlor-க்கு life interest வைத்திருக்கிறாரா, beneficiary ஏதாவது condition பின்பற்ற வேண்டும் என்று உள்ளதா என்பதைக் காண வேண்டும். Possession ஏற்கனவே கொடுக்கப்பட்டதா என்பதும் முக்கியம்.',
         },
         {
-          heading: '2. Identify the ground for cancellation',
-          text: 'List the exact reason: mutual agreement, fraud, coercion, impersonation, undue influence, breach of condition, or error in execution. A vague statement that the settlor changed his mind is usually not enough. The legal strategy depends on whether the deed is void, voidable, or fully valid.',
+          heading: '2. ரத்து செய்யும் காரணத்தை தெளிவாக நிர்ணயிக்கவும்',
+          text: 'குடும்ப சண்டை என்ற காரணம் மட்டும் போதாது. Fraud நடந்ததா, அழுத்தத்தில் கையெழுத்து போட்டாரா, condition மீறப்பட்டதா, mutual consent இருக்கிறதா, execution time-ல் mistake உண்டானதா என்பதைக் கண்டுபிடிக்க வேண்டும். இதில்தான் சட்ட வழி மாறும்.',
         },
         {
-          heading: '3. Collect title and execution records',
-          text: 'Obtain a copy of the registered settlement deed, encumbrance certificate, prior parent document, identity proofs, and any proof showing the disputed circumstances. If the challenge is based on fraud or coercion, preserve messages, witnesses, medical records, or police complaints that support the case.',
+          heading: '3. அனைத்து ஆதார ஆவணங்களையும் சேகரிக்கவும்',
+          text: 'Registered settlement deed copy, parent document, encumbrance certificate, patta, tax receipt, ID proof, fraud அல்லது coercion இருந்ததைக் காட்டும் messages, audio, witnesses போன்றவை இருப்பின் அனைத்தையும் சேமிக்க வேண்டும்.',
         },
         {
-          heading: '4. Decide between mutual revocation and legal challenge',
-          text: 'If both parties agree, a registered cancellation or revocation deed may be possible depending on the legal nature of the original transfer. If the beneficiary does not agree, court proceedings may be necessary. In many contentious cases, filing a civil suit for declaration and consequential relief is safer than relying only on a unilateral deed.',
+          heading: '4. Mutual revocation வேண்டுமா அல்லது court வழியா என்று தீர்மானிக்கவும்',
+          text: 'இரு தரப்பும் சம்மதித்தால் cancellation அல்லது revocation deed பதிவு செய்வது சில சூழல்களில் சாத்தியமாகலாம். ஆனால் beneficiary சம்மதிக்கவில்லை என்றால் civil court வழியே declaration அல்லது injunction போன்ற relief தேவைப்படலாம். ஒருதலைப்பட்சமாக deed பதிவு செய்தாலே எல்லாம் முடிந்துவிடாது.',
         },
         {
-          heading: '5. Draft the deed or pleadings correctly',
-          text: 'The draft should refer to the original settlement deed number, date, property description, parties, and the exact legal ground for revocation or cancellation. Avoid casual language. If the property description or survey number is inaccurate, the later record can create further complications.',
+          heading: '5. Draft சரியாக தயாரிக்கவும்',
+          text: 'Original settlement deed number, date, property schedule, parties பெயர், cancellation/revocation காரணம் எல்லாம் தெளிவாக வர வேண்டும். Survey number அல்லது boundary தவறாக இருந்தால் பின்னர் இன்னொரு பிரச்சினை உருவாகும்.',
         },
         {
-          heading: '6. Register and update records where applicable',
-          text: 'If a valid revocation deed is executed, take steps to update encumbrance records and revenue records. If the matter is in court, keep track of interim orders to prevent sale or third-party rights during the dispute. Follow up with the registration and revenue authorities as needed.',
+          heading: '6. பதிவு மற்றும் record update செய்யவும்',
+          text: 'Valid revocation deed பதிவு செய்யப்பட்டால் EC மற்றும் revenue record update ஆனதா என்பதைக் கவனிக்க வேண்டும். Court case சென்றால் interim order எதுவும் கிடைத்ததா, அந்த இடையில் property வேறு யாருக்கும் transfer ஆகாதபடி பார்த்துக்கொள்ள வேண்டும்.',
         },
       ],
       documents: [
-        'Certified copy of the original settlement deed',
-        'Parent document and link documents relating to the property',
-        'Encumbrance certificate for the relevant period',
-        'Identity and address proof of parties',
-        'Proof of fraud, coercion, misrepresentation, or breach of condition if alleged',
-        'Property tax receipt, patta, or possession-related records where relevant',
+        'Original settlement deed certified copy',
+        'Parent document மற்றும் link document',
+        'Encumbrance certificate',
+        'இரு தரப்பினரின் ID proof மற்றும் address proof',
+        'Fraud அல்லது coercion இருந்தால் அதற்கான ஆதாரங்கள்',
+        'Patta, tax receipt, possession record போன்ற supporting papers',
       ],
       tips: [
-        'Do not assume every settlement deed can be cancelled unilaterally.',
-        'Check whether the beneficiary accepted the settlement and whether possession was delivered.',
-        'Use the exact document number and property details from the registered deed.',
-        'If family members are negotiating, record the settlement terms clearly in writing.',
-        'Move quickly if there is risk of resale, mortgage, or mutation in someone else’s favor.',
-        'Review a formal template before drafting; ServiceLocal offers a revocation of settlement deed format for reference.',
+        'ஒவ்வொரு settlement deed-யும் unilateral-ஆக cancel செய்ய முடியாது என்பதை நினைவில் கொள்ளுங்கள்.',
+        'Beneficiary deed-ஐ ஏற்றுக்கொண்டாரா, possession கிடைத்ததா என பார்க்கவும்.',
+        'Document number, survey number, schedule எல்லாம் original deed போலவே எழுதவும்.',
+        'Family settlement பேசப்பட்டால் அதை எழுதிப் பாதுகாக்கவும்.',
+        'Property resale ஆகும் அபாயம் இருந்தால் உடனே நடவடிக்கை எடுக்கவும்.',
+        'Draft செய்வதற்கு முன் legal format பார்த்து எழுதுவது பாதுகாப்பானது.',
       ],
+      labels: {
+        intro: 'அறிமுகம்',
+        meaning: 'Settlement deed ரத்து என்பதன் பொருள்',
+        steps: 'ரத்து செய்யும் நடைமுறை',
+        documents: 'தேவையான ஆவணங்கள்',
+        tips: 'முக்கிய குறிப்புகள்',
+        checklist: 'நடவடிக்கை எடுக்கும் முன் சரிபார்க்கவும்',
+        conclusion: 'முடிவு',
+      },
+      checklist: {
+        paragraphs: [
+          'Settlement deed ரத்து செய்ய வேண்டும் என்று நினைத்த உடனே புதிய deed எழுதுவது சரியான வழி அல்ல. முதலில் original deed, registration details, beneficiary acceptance, possession நிலை, revocation clause போன்றவற்றை தெளிவாக பார்க்க வேண்டும்.',
+          'பல குடும்பங்களில் வாய்மொழியாக பேசப்பட்ட விஷயங்கள் பின்னர் court-ல் உதவாது. அதனால் messages, witnesses, medical proof, complaint copy போன்ற supporting evidence இருந்தால் அவற்றை பாதுகாக்க வேண்டும்.',
+          'சொத்து தொடர்பான பிரச்சினைகளில் தவறான ஒரு document step கூட நீண்டகால litigation-க்கு வழிவகுக்கும். எனவே draft செய்வதற்கு முன் grounds சரியா என்பதை உறுதிப்படுத்துவது மிகவும் அவசியம்.',
+        ],
+        points: [
+          'Original deed மற்றும் EC copy கையில் இருக்க வேண்டும்.',
+          'Property ஏற்கனவே transfer ஆனதா என்பதை சரிபார்க்கவும்.',
+          'Beneficiary சம்மதமா இல்லையா என்பதை தெளிவுபடுத்தவும்.',
+          'Fraud அல்லது coercion என்றால் ஆதாரங்களை சேகரிக்கவும்.',
+          'தேவைப்பட்டால் injunction பற்றி உடனே ஆலோசிக்கவும்.',
+          'Record update ஆகும் வரை follow-up செய்யவும்.',
+        ],
+      },
       conclusion: [
-        `Anyone looking up how to cancel settlement deed in Tamil should first understand that cancellation is a legal issue tied to the nature of the original transfer, not just the present wishes of the transferor. The correct route may be mutual revocation, a registered corrective document, or court action depending on the facts.`,
-        `Careful document review is essential before taking the next step. Start with the original deed, collect the evidence supporting cancellation, and use a structured draft such as the ${docLink('revocation-settlement-deed', 'Revocation of Settlement Deed format')} if your case supports that route.`,
+        `Settlement deed ரத்து செய்வது என்பது வெறும் மனம் மாறியதால் செய்யும் செயல் அல்ல; deed உருவான விதம், beneficiary நிலை, possession, fraud அல்லது condition breach போன்ற உண்மைகளின் அடிப்படையில் தான் சட்ட நடவடிக்கை எடுக்க முடியும்.`,
+        `அடுத்த படி எடுக்கும் முன் original deed-ஐ கவனமாக ஆய்வு செய்து ஆதாரங்களை சேகரிக்கவும். தேவைப்பட்டால் ${docLink('revocation-settlement-deed', '₹9 க்கு Revocation of Settlement Deed format பார்க்க')}லாம்.`,
       ],
     }),
   },
   {
     slug: 'check-court-case-status',
-    title: 'How to Check Court Case Status Online',
+    title: 'கோர்ட் கேஸ் ஸ்டேட்டஸ் எப்படி பார்க்கலாம்',
     description:
-      'A practical guide on how to check court case status online in India using case number, party name, advocate name, CNR number, and eCourts services.',
+      'Court case status online-ல் எப்படி பார்க்கலாம், CNR number என்ன, party name மூலம் எப்படி search செய்வது, next hearing date மற்றும் order details எங்கு காணலாம் என்பதற்கான தமிழில் வழிகாட்டி.',
     content: makePost({
       intro: [
-        `People search for how to check court case status when they want to know whether a hearing happened, whether an order was uploaded, or whether the next hearing date has changed. Earlier, litigants had to rely mainly on advocates or court staff. Today, a large amount of case information can be checked online through official court portals.`,
-        `For district and subordinate courts, the eCourts system is usually the first place to look. High Courts may have their own portals, and the Supreme Court has separate online services. The key is knowing which identifier to use and understanding what the status page actually tells you.`,
-        `If your case involves property or document disputes, it is also useful to keep your paperwork organized. Templates such as ${docLink('general-power-of-attorney', 'Download General Power of Attorney Format @ ₹9')} or ${docLink('document-history', 'Download Document History Format @ ₹9')} can help keep records structured alongside court updates.`,
+        `ஒரு வழக்கின் அடுத்த hearing எப்போது, order upload ஆனதா, case dispose ஆனதா, transfer ஆனதா என்று தெரிந்துகொள்ள இன்று பலரும் online-ல் court case status பார்க்க முயற்சிக்கிறார்கள். முன்பு advocate அல்லது court staff மூலம் மட்டுமே தகவல் கிடைத்தது. இப்போது official portal மூலம் பல அடிப்படை தகவல்களை நேரடியாக பார்க்க முடிகிறது.`,
+        `District court, subordinate court வழக்குகளுக்கு eCourts portal மிகவும் பயனுள்ளதாக இருக்கும். High Court மற்றும் Supreme Court-க்கு தனித்த portal இருக்கலாம். முக்கியம் என்னவென்றால், உங்கள் கையில் உள்ள தகவலை சரியாக பயன்படுத்தி சரியான portal-ல் search செய்வது தான்.`,
+        `Property அல்லது document dispute தொடர்பான வழக்கு என்றால் case papers-ஐ ஒழுங்காக வைத்திருக்கவும். அதற்காக ${docLink('general-power-of-attorney', '₹9 க்கு General Power of Attorney format பார்க்க')} அல்லது ${docLink('document-history', '₹9 க்கு Document History format பதிவிறக்கம் செய்ய')}லாம்.`,
       ],
       meaning: [
-        `Court case status refers to the current procedural stage of a case. It may show filing status, pending defects, next hearing date, court number, stage of proceedings, order upload links, disposal status, or transfer information. This is not the same as reading the entire case file, but it gives a reliable status snapshot.`,
-        `In India, one of the most useful identifiers is the CNR number, which is a unique case number used in the eCourts ecosystem. However, you can also search by case number, party name, advocate name, or filing number depending on the portal and the information you have.`,
+        `Court case status என்பது ஒரு வழக்கு தற்போது எந்த நிலையில் இருக்கிறது என்பதைக் காட்டும் தகவல். Filing முடிந்ததா, objections இருக்கிறதா, next hearing date என்ன, எந்த court hall, எந்த stage, order upload ஆனதா, dispose ஆனதா போன்ற தகவல்கள் இதில் இருக்கலாம்.`,
+        `இந்தியாவில் eCourts portal-ல் CNR number மிகவும் முக்கியமான search key ஆகும். அது இல்லாவிட்டாலும் case number, party name, advocate name, filing number போன்றவற்றால் தேடலாம். ஆனால் எந்த தகவல் நம்பகமானது என்பதை புரிந்துகொள்வது அவசியம்.`,
       ],
       steps: [
         {
-          heading: '1. Identify the correct court',
-          text: 'Before searching, determine whether the matter is in the Supreme Court, a High Court, a district court, a family court, or another tribunal. A case will only appear in the portal of the forum handling it. If you search in the wrong court system, you may assume incorrectly that no record exists.',
+          heading: '1. வழக்கு எந்த court-ல் உள்ளது என்பதை முதலில் தெரிந்துகொள்ளவும்',
+          text: 'Supreme Court-ஆ, High Court-ஆ, District Court-ஆ, Family Court-ஆ அல்லது tribunal-ஆ என்பதை முதலில் கண்டுபிடிக்க வேண்டும். தவறான portal-ல் search செய்தால் case இல்லை என்று நினைத்துவிடலாம்.',
         },
         {
-          heading: '2. Search using the strongest identifier available',
-          text: 'If you have the CNR number, use that first because it is usually the most accurate method. If not, try case type, case number, and filing year. Party name search is useful when exact numbers are unavailable, but name variations and spelling issues can cause incomplete results.',
+          heading: '2. உங்களிடம் உள்ள சரியான விவரத்தை பயன்படுத்தி search செய்யவும்',
+          text: 'CNR number இருந்தால் முதலில் அதைப் பயன்படுத்துங்கள். அது மிகச்சரியான method. இல்லையெனில் case type, case number, filing year, party name, advocate name மூலம் தேடலாம். பெயர் spelling மாறுபாடு இருந்தால் சில result-கள் வராமல் போகலாம்.',
         },
         {
-          heading: '3. Review the displayed case details carefully',
-          text: 'Check the names of parties, advocate details, filing date, registration date, current stage, next hearing date, and the court hall or bench details. Make sure the record truly matches your case, especially where names are common or there are multiple connected proceedings.',
+          heading: '3. வந்துள்ள case details சரியாக உங்களுடையதா என்று பார்க்கவும்',
+          text: 'Party names, advocate details, filing date, registration date, current stage, next hearing date, court hall, bench விவரங்களை சரிபார்க்க வேண்டும். ஒரே பெயரில் பல வழக்குகள் இருக்கலாம் என்பதால் தவறான record-ஐ பார்க்காமல் கவனமாக இருங்கள்.',
         },
         {
-          heading: '4. Open orders or proceeding history where available',
-          text: 'Many portals provide links to daily orders, judgments, or case history. Read the latest order date and note whether an interim order, adjournment, or final disposal has happened. The status line alone may not capture everything important, so opening the latest uploaded order is often necessary.',
+          heading: '4. Order history அல்லது daily order link இருந்தால் அதை திறந்து பார்க்கவும்',
+          text: 'பல portal-களில் order copy, judgment, case history link இருக்கும். Latest order date, adjournment, stay, interim order, final disposal போன்றவை அங்கே தெளிவாக இருக்கும். Status line மட்டும் பார்த்தால் முழு தகவல் கிடைக்காமல் போகலாம்.',
         },
         {
-          heading: '5. Check again after the hearing date',
-          text: 'Online status is useful, but updates may not appear instantly after a hearing. If your matter was listed today, wait for the official portal to refresh. If the case is urgent, confirm with counsel or court filing staff, especially when interim relief or stay orders are involved.',
+          heading: '5. Hearing நடந்த பிறகு மீண்டும் status பார்க்கவும்',
+          text: 'அதே நாளில் update வராத சூழலும் இருக்கும். Hearing முடிந்த உடனே portal refresh ஆகாமல் இருக்கலாம். அவசர case என்றால் advocate-யிடம் அல்லது court filing source-இடமும் உறுதி செய்யுங்கள்.',
         },
         {
-          heading: '6. Save the information for your records',
-          text: 'Take a screenshot or note down the CNR number, case number, next date, and order details. This makes it easier to track future changes and avoids confusion when several family or property matters are pending at the same time.',
+          heading: '6. Screenshot அல்லது note எடுத்து வைத்துக்கொள்ளவும்',
+          text: 'CNR number, case number, next date, order details போன்றவை note செய்து வைத்துக்கொண்டால் பிறகு ஒப்பிட எளிதாக இருக்கும். குடும்பம் அல்லது சொத்து தொடர்பான பல வழக்குகள் இருந்தால் இது மிக அவசியம்.',
         },
       ],
       documents: [
-        'Case number, filing number, or CNR number if available',
-        'Name of court, district, and state',
-        'Year of filing',
-        'Names of the parties or advocate',
-        'Prior orders or notices for cross-verification',
+        'Case number அல்லது CNR number',
+        'Court பெயர், மாவட்டம், மாநிலம்',
+        'Filing year',
+        'Party names அல்லது advocate பெயர்',
+        'முன்னைய order copy அல்லது notice copy',
       ],
       tips: [
-        'Use the CNR number whenever possible because it reduces search errors.',
-        'Double-check spellings of party names before assuming the case is missing.',
-        'The online status page is helpful, but the latest order copy often gives better context.',
-        'If the matter involves urgent relief, verify the update with your advocate as well.',
-        'Save screenshots of important status changes for your case records.',
-        'Organize related property papers and pleadings so they are easy to match against online updates.',
+        'CNR number இருந்தால் அதையே முதலில் பயன்படுத்தவும்.',
+        'Party name spelling சரியா உள்ளதா என்று மீண்டும் பார்க்கவும்.',
+        'Status page மட்டும் அல்ல, latest order copy-யும் பார்க்கவும்.',
+        'Urgent matter என்றால் advocate-யிடமும் உறுதி செய்யுங்கள்.',
+        'முக்கிய status change வந்தால் screenshot சேமிக்கவும்.',
+        'Case papers அனைத்தையும் ஒரே folder-ல் வைத்திருங்கள்.',
       ],
+      labels: {
+        intro: 'அறிமுகம்',
+        meaning: 'Court case status என்றால் என்ன?',
+        steps: 'ஆன்லைனில் பார்க்கும் முறை',
+        documents: 'தேவையான விவரங்கள்',
+        tips: 'பயனுள்ள குறிப்புகள்',
+        checklist: 'Status பார்ப்பதற்கு முன் கவனிக்கவும்',
+        conclusion: 'முடிவு',
+      },
+      checklist: {
+        paragraphs: [
+          'Court case status பார்க்கும்போது first impression அடிப்படையில் முடிவு எடுக்கக்கூடாது. ஒரே பெயரில் பல வழக்குகள் இருக்கலாம். அதனால் case number, CNR number, filing year, court name ஆகியவற்றை ஒப்பிட்டு பார்த்த பிறகே அது உங்கள் வழக்கு என்பதை உறுதி செய்யவும்.',
+          'Portal-ல் தெரியும் தகவல் மற்றும் actual order copy இடையே சிறிய வேறுபாடு இருக்கக்கூடும். Hearing நடந்த உடனே status update ஆகாமல் இருக்கலாம். எனவே முக்கியமான வழக்குகளில் order upload ஆனதா என்பதை தனியாகவும் பார்க்க வேண்டும்.',
+          'வழக்கின் அடுத்த தேதி, stage, order reference ஆகியவற்றை note செய்து வைத்துக்கொண்டால் advocate-யுடன் பேசும்போதும், family members-க்கு update கொடுக்கும்போதும் குழப்பம் குறையும்.',
+        ],
+        points: [
+          'சரியான court portal-ஐ பயன்படுத்தவும்.',
+          'CNR number இருந்தால் முதலில் அதிலேயே search செய்யவும்.',
+          'Order date மற்றும் next hearing date-ஐ பதிவு செய்யவும்.',
+          'பல connected cases இருந்தால் தனித்த note வைத்துக்கொள்ளவும்.',
+          'Status update தாமதமாக இருந்தால் மீண்டும் பார்க்கவும்.',
+          'தேவைப்பட்டால் advocate confirmation பெறவும்.',
+        ],
+      },
       conclusion: [
-        `Understanding how to check court case status online can save time and help litigants stay informed between hearings. The most reliable method is to search the correct portal using the CNR number or exact case details and then read the latest order history carefully.`,
-        `Online status tracking does not replace legal advice, but it is an excellent way to monitor progress. Keep your case identifiers handy and maintain supporting documents in an organized format for easier follow-up.`,
+        `Court case status online-ல் பார்ப்பது litigant-களுக்கு நேரத்தை மிச்சப்படுத்தும். சரியான portal-ல் CNR number அல்லது துல்லியமான case details வைத்து search செய்தால் hearing date, order status, case stage போன்ற முக்கிய தகவல்களை உடனே தெரிந்துகொள்ளலாம்.`,
+        `இது legal advice-ஐ மாற்றாது. ஆனால் வழக்கின் முன்னேற்றத்தை தொடர்ந்து கண்காணிக்க இது மிகவும் உதவும். Case identifiers மற்றும் related papers-ஐ ஒழுங்காக வைத்திருந்தால் follow-up எளிதாக இருக்கும்.`,
       ],
     }),
   },
@@ -438,64 +521,175 @@ export const blogs = [
   },
   {
     slug: 'udr-patta-rules-in-tamil-nadu',
-    title: 'UDR Patta Rules in Tamil Nadu',
+    title: 'தமிழ்நாட்டில் UDR பட்டா விதிகள்',
     description:
-      'Learn the basics of UDR patta rules in Tamil Nadu, including what UDR means, how entries are checked, when corrections are needed, and what documents matter.',
+      'UDR patta rules in Tamil Nadu பற்றி எளிய தமிழில் விளக்கம். UDR பட்டா என்றால் என்ன, பெயர் அல்லது survey mismatch வந்தால் என்ன செய்ய வேண்டும், எந்த ஆவணங்கள் தேவை என்பதற்கான வழிகாட்டி.',
     content: makePost({
       intro: [
-        `People searching for UDR patta rules in Tamil Nadu are usually dealing with old revenue entries, patta mismatch, survey confusion, or subdivision issues discovered during sale, partition, or loan processing. UDR records are frequently referred to when land records were updated under revenue modernization exercises and later compared with older documents.`,
-        `A common problem is that owners assume the patta entry alone settles every title question. In reality, patta and UDR entries are important revenue records, but they must be read together with sale deeds, parent documents, settlement records, and survey details.`,
-        `If your UDR patta issue connects to title transfer or family division, ${docLink('sale-conveyance-deed', 'Download Sale/Conveyance Deed Format @ ₹9')} and ${docLink('partition-deed', 'Download Partition Deed Format @ ₹9')} are useful related references.`,
+        `தமிழ்நாட்டில் நிலம் வாங்கும் போது, partition செய்யும் போது, bank loan எடுக்கும்போது, அல்லது patta transfer செய்யும் போது UDR patta பற்றி பலர் கேட்கிறார்கள். பழைய document-களில் உள்ள survey number, extent, owner name போன்றவை பின்னர் கிடைக்கும் UDR patta-வில் மாறுபடுவது சாதாரணமாக காணப்படுகிறது.`,
+        `பலர் patta இருக்கிறது என்றால் title பிரச்சினை இல்லை என்று நினைக்கிறார்கள். ஆனால் patta என்பது revenue record. அது முக்கியமானது தான்; இருந்தாலும் registered sale deed, parent document, EC, field map ஆகியவற்றோடு சேர்த்து தான் பார்க்க வேண்டும். இதை புரிந்துகொள்ளாமல் செயல்பட்டால் sale நேரத்தில், bank scrutiny-யில், family dispute-ல் பெரிய சிக்கல் வரும்.`,
+        `UDR patta mismatch அல்லது correction தொடர்பாக document தயாரிக்க வேண்டுமென்றால் ${docLink('sale-conveyance-deed', '₹9 க்கு Sale/Conveyance Deed format பார்க்க')} மற்றும் ${docLink('partition-deed', '₹9 க்கு Partition Deed format பதிவிறக்கம் செய்ய')}லாம்.`,
       ],
       meaning: [
-        `UDR generally refers to updating or resettling revenue-related records so that land survey and ownership entries are organized in a modernized format. In Tamil Nadu practice, people often speak about UDR patta when comparing older title documents with later patta records generated or updated during this process.`,
-        `The main rule to remember is that patta reflects revenue recognition, not by itself an unquestionable declaration of title. Authorities may change entries based on transfer, inheritance, partition, or correction requests, but where title is seriously disputed, the supporting deed chain remains critical.`,
+        `UDR என்பது பொதுவாக revenue records update செய்யப்பட்ட ஒரு நடைமுறையை குறிக்கப் பயன்படுத்தப்படும் சொல். மக்கள் நடைமுறையில் “UDR patta” என்று சொல்வது, பழைய title documents-க்கு பிறகு revenue records modernize செய்யப்பட்ட நிலையில் இருக்கும் patta entry-களை குறிக்கும்.`,
+        `இதில் முக்கியமான விதி என்னவென்றால் patta என்பது title certificate அல்ல. அது revenue side recognition. பெயர் மாற்றம், inheritance, partition, correction போன்ற காரணங்களால் patta entry மாறலாம். ஆனால் title குறித்து பெரிய dispute இருந்தால் registered deed chain தான் முக்கியம்.`,
       ],
       steps: [
         {
-          heading: '1. Compare the patta with your title documents',
-          text: 'Take the UDR patta copy and compare the owner name, survey number, sub-division, extent, village, and classification against the registered sale deed or family document. Many problems surface only when buyers or banks inspect these details line by line.',
+          heading: '1. UDR patta copy-ஐ title document-களுடன் ஒப்பிடவும்',
+          text: 'Owner name, survey number, subdivision, extent, village name, classification ஆகியவற்றை sale deed அல்லது family document-களுடன் ஒப்பிடுங்கள். Bank அல்லது buyer line by line பார்க்கும்போது தான் பல mismatch-கள் தெரிய வரும்.',
         },
         {
-          heading: '2. Verify whether the issue is clerical or substantive',
-          text: 'A spelling error, extent typing issue, or missing sub-division may be handled differently from a major ownership dispute. If the problem is only clerical, revenue correction may be possible with supporting records. If someone else’s name appears based on competing title, the matter can become more complex.',
+          heading: '2. இது clerical mistake ஆ அல்லது title issue ஆ என்று கண்டுபிடிக்கவும்',
+          text: 'பெயர் spelling mistake, extent typing mistake, subdivision விடுபட்டது போன்றவை ஒரு வகை. வேறு ஒருவரின் பெயர் owner-ஆக இருப்பது வேறு வகை. முதல் நிலை correction மூலம் சரியாகலாம்; இரண்டாவது நிலை title dispute-ஆக மாறலாம்.',
         },
         {
-          heading: '3. Collect the revenue and registration chain',
-          text: 'Gather patta, chitta where relevant, adangal extracts, field map, parent deed, latest sale deed, EC, tax receipts, and legal heir records if the property passed by succession. Revenue authorities usually expect the request to be backed by coherent documentary continuity.',
+          heading: '3. Revenue மற்றும் registration records அனைத்தையும் சேகரிக்கவும்',
+          text: 'Patta, chitta, adangal, field map, parent document, latest sale deed, encumbrance certificate, tax receipt, legal heir papers போன்றவற்றை ஒன்றாக வைத்துக்கொள்ள வேண்டும். இதனால் உங்கள் claim தொடர்ச்சியாக இருப்பது தெரியும்.',
         },
         {
-          heading: '4. Submit mutation or correction request before the proper authority',
-          text: 'The exact authority and workflow may vary, but applications are usually supported by ownership records, identity proof, and survey particulars. Provide consistent survey numbers and avoid contradictory annexures. If the entry problem relates to an earlier document error, correction at the document level may also be necessary.',
+          heading: '4. சரியான அதிகாரியிடம் correction அல்லது mutation விண்ணப்பிக்கவும்',
+          text: 'Taluk office அல்லது உரிய revenue authority-க்கு விண்ணப்பிக்கும் போது ownership proof, identity proof, survey details அனைத்தும் consistent-ஆக இருக்க வேண்டும். பழைய deed-இல் தவறு இருந்தால் patta correction மட்டும் போதாது; document correction-மும் தேவைப்படலாம்.',
         },
         {
-          heading: '5. Attend inquiry or field verification',
-          text: 'Revenue officers may call for inquiry, local verification, or notice to interested parties. Be prepared to explain the title history calmly and with documents. Boundary disputes, inheritance claims, and partition disagreements often surface at this stage.',
+          heading: '5. Inquiry அல்லது field verification வந்தால் கலந்து கொள்ளவும்',
+          text: 'Revenue officers local inquiry நடத்தலாம், field verification செய்யலாம், interested parties-க்கு notice அனுப்பலாம். அப்போது title history-ஐ documents மூலம் தெளிவாக விளக்க வேண்டும். Boundary issue, inheritance claim, partition disagreement இங்கே வெளிப்படும்.',
         },
         {
-          heading: '6. Follow up and preserve the corrected record',
-          text: 'After correction or mutation, download or obtain the updated patta copy and compare it once again with the deed. If the order is adverse, understand the appeal or review path available under the applicable revenue procedure.',
+          heading: '6. Final updated record கிடைத்த பிறகு மீண்டும் சரிபார்க்கவும்',
+          text: 'Correction அல்லது mutation முடிந்ததும் updated patta copy எடுத்து மீண்டும் deed-உடன் ஒப்பிடுங்கள். Order எதிராக இருந்தால் appeal அல்லது review வாய்ப்பு என்ன என்பதை தெரிந்துகொள்ள வேண்டும்.',
         },
       ],
       documents: [
-        'UDR patta copy and related revenue extract',
-        'Registered sale deed, settlement deed, or partition deed',
-        'Parent documents and encumbrance certificate',
-        'Tax receipts and possession proof',
-        'Survey map, field sketch, or subdivision record',
-        'Legal heir documents if ownership passed by inheritance',
+        'UDR patta copy',
+        'Sale deed / settlement deed / partition deed',
+        'Parent documents மற்றும் encumbrance certificate',
+        'Tax receipt மற்றும் possession proof',
+        'Field map, sketch, subdivision record',
+        'Inheritance case என்றால் legal heir documents',
       ],
       tips: [
-        'Never rely on patta alone without checking the deed chain.',
-        'Keep survey number and subdivision references consistent across all applications.',
-        'Separate clerical errors from title disputes before choosing the remedy.',
-        'If the underlying deed is wrong, consider correcting that document too.',
-        'Attend inquiry with originals and photocopies arranged in date order.',
-        'Preserve the final order along with the corrected patta copy for future sale or loan use.',
+        'Patta மட்டும் பார்த்து ownership முடிவு செய்யாதீர்கள்.',
+        'Survey number, subdivision references எல்லாம் ஒரே மாதிரி இருக்க வேண்டும்.',
+        'Clerical error மற்றும் title dispute-ஐ தனித்தனியாக அணுகவும்.',
+        'Underlying deed தவறு இருந்தால் அதையும் திருத்துங்கள்.',
+        'Inquiry-க்கு originals மற்றும் photocopies ஒழுங்காக எடுத்துச் செல்லுங்கள்.',
+        'Updated patta copy மற்றும் final order-ஐ பாதுகாப்பாக வைத்திருங்கள்.',
       ],
+      labels: {
+        intro: 'அறிமுகம்',
+        meaning: 'UDR பட்டா என்றால் என்ன?',
+        steps: 'UDR பட்டா சிக்கல் வந்தால் என்ன செய்ய வேண்டும்',
+        documents: 'தேவையான ஆவணங்கள்',
+        tips: 'முக்கிய குறிப்புகள்',
+        checklist: 'Correction செய்யும் முன் கவனிக்கவும்',
+        conclusion: 'முடிவு',
+      },
+      checklist: {
+        paragraphs: [
+          'UDR patta issue வந்தால் பலர் உடனே “பட்டா தவறாக இருக்கிறது, title போய்விட்டது” என்று பயப்படுகிறார்கள். எல்லா mismatch-மும் title loss ஆகாது. சில நேரங்களில் அது data entry அல்லது revenue updation பிரச்சினை மட்டுமே இருக்கலாம்.',
+          'ஆனால் அதை லேசாக எடுத்துக்கொள்ளவும் கூடாது. Buyer, bank, court, family members யாராக இருந்தாலும் அவர்கள் revenue record-ஐ பார்க்கும்போது கேள்வி எழுப்பலாம். அதனால் deed chain மற்றும் patta entry ஒன்றுக்கு ஒன்று பொருந்துகிறதா என்பதை ஆதாரங்களுடன் நிரூபிக்கத் தயாராக இருக்க வேண்டும்.',
+          'சரியான ஆவணங்களுடன் correction request கொடுத்தால் பல சிக்கல்கள் ஆரம்ப கட்டத்திலேயே தீர்ந்து விடும். ஆதாரமில்லாமல் பலமுறை விண்ணப்பித்து நேரம் இழப்பதை தவிர்க்கலாம்.',
+        ],
+        points: [
+          'Patta copy மற்றும் deed copy இரண்டும் கையில் இருக்க வேண்டும்.',
+          'Survey number, subdivision, extent ஆகியவற்றை மூன்று முறை சரிபார்க்கவும்.',
+          'EC-யில் வரும் entry-களையும் ஒப்பிடுங்கள்.',
+          'Inheritance case என்றால் heir proof தயாராக வைத்திருங்கள்.',
+          'Field verification வந்தால் நேரில் கலந்து கொள்ளுங்கள்.',
+          'Correction order copy-ஐ download செய்து சேமிக்கவும்.',
+        ],
+      },
       conclusion: [
-        `Understanding UDR patta rules in Tamil Nadu begins with one practical truth: revenue records matter, but they work best when they align with the registered title documents. Most successful correction efforts start with clean documentary comparison rather than assumptions.`,
-        `If you are preparing for sale, partition, or rectification, review both the revenue side and the registration side together. That combined approach avoids future objections from buyers, banks, or family claimants.`,
+        `UDR patta rules in Tamil Nadu பற்றி புரிந்துகொள்ள வேண்டிய மிக முக்கியமான விஷயம்: patta முக்கியம் தான், ஆனால் அது registered title documents-ஓடு பொருந்தியிருக்க வேண்டும். இரண்டையும் சேர்த்து பார்க்காமல் முடிவு எடுத்தால் பின்னர் சிக்கல் வரும்.`,
+        `Sale, partition, rectification அல்லது patta correction எதற்காக இருந்தாலும் revenue side மற்றும் registration side இரண்டையும் இணைத்து அணுகுங்கள். அதுவே future objection-களை குறைக்கும்.`,
+      ],
+    }),
+  },
+  {
+    slug: 'patta-process-tamil-nadu',
+    title: 'தமிழ்நாட்டில் பட்டா மாற்றம் செய்வது எப்படி',
+    description:
+      'Patta process Tamil Nadu பற்றி எளிய தமிழில். பெயர் மாற்றம், விண்ணப்ப முறை, தேவையான ஆவணங்கள், field verification, follow-up போன்ற அனைத்தையும் அறியுங்கள்.',
+    content: makePost({
+      intro: [
+        `தமிழ்நாட்டில் நிலம் வாங்கிய பிறகு அல்லது குடும்பச் சொத்து பிரித்துக் கொண்ட பிறகு “பட்டா மாற்றம் எப்படி செய்வது?” என்ற கேள்வி அதிகமாக வருகிறது. Sale deed பதிவு செய்ததும் எல்லாம் முடிந்துவிட்டது என்று பலர் நினைக்கிறார்கள். ஆனால் revenue records-ல் பெயர் update ஆகாவிட்டால் bank loan, resale, family proof, local verification போன்ற விஷயங்களில் சிக்கல் ஏற்படலாம்.`,
+        `Patta என்பது revenue record. இது property யார் பெயரில் revenue department-ல் காணப்படுகிறது என்பதை காட்டும் முக்கிய ஆவணம். அதனால் sale deed, settlement deed, partition deed, inheritance போன்ற மாற்றங்களுக்குப் பிறகு patta transfer அல்லது patta correction செய்வது வழக்கமாக அவசியமாகிறது.`,
+        `Document side-ஐ சரியாக வைத்திருக்க ${docLink('sale-conveyance-deed', '₹9 க்கு Sale/Conveyance Deed format பதிவிறக்கம் செய்ய')} அல்லது ${docLink('partition-deed', '₹9 க்கு Partition Deed format பார்க்க')}லாம்.`,
+      ],
+      meaning: [
+        `Patta process Tamil Nadu என்றால், ஒரு நிலம் அல்லது வீட்டு நிலம் தொடர்பான revenue record-ல் உரிமையாளர் பெயர் மற்றும் survey particulars update ஆகும் நடைமுறை என்று பொதுவாக பொருள். இது sale, settlement, inheritance, partition, release, court order போன்ற காரணங்களால் தேவையாகலாம்.`,
+        `Patta பெயர் வந்துவிட்டது என்ற alone title முடிந்துவிட்டது என்பதல்ல. அதேபோல் patta transfer ஆகாததால் title இல்லை என்றும் சொல்ல முடியாது. ஆனால் நடைமுறையில் patta update செய்து வைத்திருப்பது மிகவும் உதவிகரமானது.`,
+      ],
+      steps: [
+        {
+          heading: '1. முதலில் supporting documents தயாராக வைத்துக்கொள்ளவும்',
+          text: 'Registered sale deed, settlement deed, partition deed, release deed, legal heir certificate, death certificate, EC, tax receipt போன்ற தேவையான papers எது applicable ஆகிறதோ அதைத் தயார் செய்ய வேண்டும். பெயர் மாற்றம் எந்த காரணத்தால் கேட்கிறீர்கள் என்பதை documents தெளிவாக காட்ட வேண்டும்.',
+        },
+        {
+          heading: '2. Survey number மற்றும் extent-ஐ சரிபார்க்கவும்',
+          text: 'பல விண்ணப்பங்கள் survey number அல்லது subdivision mistake காரணமாக தாமதமாகின்றன. Deed-இல் உள்ள extent, village name, taluk, district, patta number, old patta details ஆகியவை சரியா என்பதை முன்பே சரிபார்க்க வேண்டும்.',
+        },
+        {
+          heading: '3. உரிய online portal அல்லது office மூலம் விண்ணப்பிக்கவும்',
+          text: 'தமிழ்நாட்டில் பலர் e-service அல்லது taluk office வழியாக patta transfer விண்ணப்பிக்கிறார்கள். எந்த வழியாக செய்தாலும் application-ல் owner name, document number, registration year, survey details, address ஆகியவை சரியாக இருக்க வேண்டும்.',
+        },
+        {
+          heading: '4. Supporting documents upload அல்லது attach செய்யவும்',
+          text: 'Application number உருவான பிறகு தேவையான documents scan செய்து upload செய்ய வேண்டும் அல்லது office-ல் submit செய்ய வேண்டும். Readable copy கொடுப்பது முக்கியம். Half scan, blurred copy, incomplete pages இருந்தால் objection வர வாய்ப்பு அதிகம்.',
+        },
+        {
+          heading: '5. Field verification அல்லது inquiry வந்தால் கலந்து கொள்ளவும்',
+          text: 'சில patta transfer applications-க்கு VAO, surveyor அல்லது revenue official field verification நடத்தலாம். அப்போது neighboring owners, possession, boundary, usage போன்றவை பார்க்கப்படலாம். நீங்கள் அல்லது உங்களது representative கலந்து கொண்டால் விளக்கம் அளிக்க எளிதாக இருக்கும்.',
+        },
+        {
+          heading: '6. Final status பார்த்து corrected patta copy சேமிக்கவும்',
+          text: 'Patta change approve ஆன பிறகு updated patta copy எடுத்து, பெயர், survey number, extent, subdivision, address சரியா உள்ளதா பார்க்க வேண்டும். ஏதேனும் தவறு இருந்தால் உடனே follow-up செய்ய வேண்டும். Approved copy-ஐ future sale, loan, legal need க்கு பாதுகாப்பாக வைத்திருக்கவும்.',
+        },
+      ],
+      documents: [
+        'Registered sale deed / settlement deed / partition deed',
+        'Encumbrance certificate',
+        'Patta copy அல்லது old patta details',
+        'Tax receipt',
+        'Legal heir certificate, death certificate போன்ற succession papers',
+        'Identity proof மற்றும் address proof',
+      ],
+      tips: [
+        'Patta transfer செய்யும் முன் deed-இல் mistake இல்லையா என்று பார்க்கவும்.',
+        'Survey number, extent, village details-ஐ consistent-ஆக வைத்திருக்கவும்.',
+        'Upload செய்யும் scanned copies தெளிவாக இருக்க வேண்டும்.',
+        'Application number note செய்து வைத்துக்கொள்ளவும்.',
+        'Field verification-ஐ உதாசீனம் செய்யாதீர்கள்.',
+        'Updated patta வந்ததும் உடனே சரிபார்க்கவும்.',
+      ],
+      labels: {
+        intro: 'அறிமுகம்',
+        meaning: 'பட்டா மாற்றம் என்றால் என்ன?',
+        steps: 'பட்டா process படிப்படியாக',
+        documents: 'தேவையான ஆவணங்கள்',
+        tips: 'முக்கிய குறிப்புகள்',
+        checklist: 'விண்ணப்பிக்கும் முன் கவனிக்கவும்',
+        conclusion: 'முடிவு',
+      },
+      checklist: {
+        paragraphs: [
+          'Patta process Tamil Nadu பற்றி தெரிந்துகொள்ளும் பலர் ஒரு பொதுவான தவறு செய்கிறார்கள்: sale deed பதிவு ஆனதும் patta தானாக மாறிவிடும் என்று நினைக்கிறார்கள். நடைமுறையில் பல இடங்களில் தனியாக follow-up தேவைப்படலாம்.',
+          'Document-ல் இருக்கும் பெயர், revenue record-ல் இருக்கும் பெயர், tax receipt-ல் இருக்கும் பெயர் ஆகியவை முரண்படுமானால் application தாமதமாகலாம். எனவே விண்ணப்பிக்கும் முன் இந்த மூன்று நிலைகளையும் ஒப்பிட்டு பார்க்க வேண்டும்.',
+          'Application submit செய்த பிறகும் status பார்க்க வேண்டும். Approved ஆனது, pending ஆனது, objection வந்தது என்பதைக் கவனிக்காமல் விடாதீர்கள்.',
+        ],
+        points: [
+          'Document number சரியா உள்ளது என்பதை பார்க்கவும்.',
+          'Survey details அனைத்தும் ஒரே மாதிரி இருக்க வேண்டும்.',
+          'Tax dues ஏதேனும் உள்ளதா என்று சரிபார்க்கவும்.',
+          'Heirship case என்றால் அனைத்து heirs விவரங்களையும் தயார் வைத்திருங்கள்.',
+          'Application acknowledgement சேமிக்கவும்.',
+          'Approved patta copy download செய்து backup எடுக்கவும்.',
+        ],
+      },
+      conclusion: [
+        `தமிழ்நாட்டில் பட்டா மாற்றம் செய்வது பெரிய சிக்கலான வேலை அல்ல. ஆனால் சரியான document, சரியான survey details, மற்றும் தொடர்ந்து follow-up இருந்தால் தான் அது எளிதாக முடியும்.`,
+        `Sale deed பதிவு செய்ததோடு வேலையை நிறுத்தாமல் patta update ஆனதா என்பதையும் கவனியுங்கள். தேவையானால் ${docLink('sale-conveyance-deed', '₹9 க்கு Sale Deed format பார்க்க')} மற்றும் தொடர்புடைய property document pages-ஐ பயன்படுத்தி உங்கள் file-ஐ complete ஆக்கலாம்.`,
       ],
     }),
   },
@@ -877,4 +1071,41 @@ export const blogs = [
   },
 ];
 
-export default blogs;
+const tamilBlogSlugs = new Set([
+  'how-to-fill-rental-agreement-form-tamil',
+  'cancel-settlement-deed-tamil',
+  'check-court-case-status',
+  'udr-patta-rules-in-tamil-nadu',
+  'patta-process-tamil-nadu',
+]);
+
+const tamilSeoBooster = `
+  <section>
+    <h2>தமிழ்நாடு பயனர்களுக்கான கூடுதல் வழிகாட்டி</h2>
+    <p>
+      தமிழ்நாட்டில் legal document, patta, settlement, rental, court status போன்ற விஷயங்களில் மக்கள் அதிகமாக online-ல் தேடுவதற்கான முக்கிய காரணம், ஒவ்வொரு office-லும் நடைமுறை சிறிது மாறுபடக்கூடும் என்பதுதான். Chennai, Coimbatore, Madurai, Trichy, Salem, Tirunelveli போன்ற மாவட்டங்களில் process ஒரே மாதிரியாக தோன்றினாலும், supporting document கேட்கும் விதம், follow-up முறை, field verification நிலை, portal update வேகம் போன்றவை நடைமுறையில் மாறலாம். அதனால் எந்த online guide-ஐ பார்த்தாலும் அதை உங்கள் actual records-ஓடு ஒப்பிட்டு பயன்படுத்துவது நல்ல நடைமுறை.
+    </p>
+    <p>
+      குறிப்பாக property மற்றும் family document தொடர்பான விஷயங்களில் பெயர் spelling, initials, survey number, subdivision, village name, registration year, document number போன்ற சிறிய விவரங்களே பெரிய முடிவுகளை பாதிக்கக்கூடும். ஒரு எழுத்து தவறு, ஒரு digit தவறு, அல்லது பழைய பெயர் தொடர்வது போன்ற காரணங்களால் patta transfer தாமதமாகலாம், buyer objection எழுப்பலாம், bank scrutiny நின்றுவிடலாம், அல்லது court filing-ல் clarification கேட்கப்படலாம். அதனால் final submission செய்யும் முன் line by line verification செய்வது மிகவும் அவசியம்.
+    </p>
+    <ul>
+      <li>Online portal-ல் காணும் entry-ஐ deed copy, tax receipt, EC, patta copy போன்றவற்றோடு ஒப்பிட்டு பார்க்கவும்.</li>
+      <li>Application number, acknowledgment, screenshot, payment receipt ஆகியவற்றை தனியாக சேமிக்கவும்.</li>
+      <li>தேவைப்பட்டால் village administrative records, survey sketch, field map போன்றவற்றையும் compare செய்யவும்.</li>
+      <li>Document drafting செய்யும் முன் சரியான format பயன்படுத்துவது பின்னர் correction தேவையை குறைக்கும்.</li>
+      <li>Family property matter என்றால் அனைத்து உரிமை கோரும் நபர்களின் நிலையும் புரிந்துகொண்டு நடவடிக்கை எடுக்கவும்.</li>
+      <li>சிக்கல் அதிகமானால் oral advice-ஐ மட்டும் நம்பாமல் record-based approach எடுத்துக்கொள்ளவும்.</li>
+    </ul>
+    <p>
+      ServiceLocal போன்ற தளங்களில் document format-களை reference ஆகப் பயன்படுத்துவது ஒரு நல்ல தொடக்கம். ஆனால் format இருந்தாலே போதாது; அதில் உள்ள உள்ளடக்கம் உங்கள் நிலைமைக்கு பொருந்த வேண்டும். அதனால் இந்த blog-களை வாசிக்கும் போது, அடுத்த படியாக எந்த document page பார்க்க வேண்டும், எந்த records கையில் இருக்க வேண்டும், எந்த தகவலை முன்கூட்டியே சேகரிக்க வேண்டும் என்ற நோக்கத்துடன் செயல்பட்டால் conversions மட்டுமல்ல, உங்கள் actual legal work-மும் சீராக நடக்கும்.
+    </p>
+  </section>
+`;
+
+const localizedBlogs = blogs.map((blog) => ({
+  ...blog,
+  language: tamilBlogSlugs.has(blog.slug) ? 'ta' : 'en',
+  content: tamilBlogSlugs.has(blog.slug) ? `${blog.content}${tamilSeoBooster}` : blog.content,
+}));
+
+export default localizedBlogs;

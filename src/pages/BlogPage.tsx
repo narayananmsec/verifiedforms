@@ -40,8 +40,11 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <Helmet>
-        <title>{blog.title} | ServiceLocal</title>
-        <meta name="description" content={blog.description} />
+        <title>{blog.language === 'ta' ? `தமிழில் ${blog.title} | ServiceLocal` : `${blog.title} | ServiceLocal`}</title>
+        <meta
+          name="description"
+          content={blog.language === 'ta' ? `தமிழில் முழுமையான வழிகாட்டி: ${blog.description}` : blog.description}
+        />
         <link rel="canonical" href={`https://servicelocal.in/blog/${blog.slug}`} />
       </Helmet>
 
@@ -49,8 +52,17 @@ export default function BlogPage() {
         <article className="max-w-4xl mx-auto rounded-3xl bg-white p-6 md:p-10 shadow-xl shadow-emerald-100/70">
           <div className="mb-8 border-b border-emerald-100 pb-6">
             <Link to="/blog" className="text-sm font-semibold text-emerald-700 hover:text-emerald-800">
-              Back to Blog
+              {blog.language === 'ta' ? 'ப்ளாக் பட்டியலுக்கு திரும்ப' : 'Back to Blog'}
             </Link>
+            <div className="mt-4">
+              <span
+                className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold ${
+                  blog.language === 'ta' ? 'bg-orange-100 text-orange-700' : 'bg-sky-100 text-sky-700'
+                }`}
+              >
+                {blog.language === 'ta' ? 'தமிழ்' : 'EN'}
+              </span>
+            </div>
             <h1 className="mt-4 text-3xl md:text-5xl font-bold leading-tight text-gray-900">{blog.title}</h1>
             <p className="mt-4 text-base md:text-lg leading-8 text-gray-700">{blog.description}</p>
           </div>
