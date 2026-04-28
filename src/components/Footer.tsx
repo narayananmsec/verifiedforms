@@ -37,6 +37,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/blog" className="hover:text-emerald-500 transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
                 <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
                   Contact Us
                 </a>

@@ -11,6 +11,8 @@ import ContactPage from './pages/ContactPage';
 import FaqPage from './pages/FaqPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
+import BlogListPage from './pages/BlogListPage';
+import BlogPage from './pages/BlogPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -24,6 +26,8 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
+          <Route path="/blog" element={<BlogListPage />} />
+          <Route path="/blog/:slug" element={<BlogPage />} />
           <Route path="/docs/:slug" element={<DocPage />} />
         </Routes>
       </HomeSearchProvider>

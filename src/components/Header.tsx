@@ -3,12 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
 import { useHomeSearch } from '../context/HomeSearchContext';
 
-type NavPage = 'home' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
+type NavPage = 'home' | 'blog' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
 
 function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/') return 'home';
   if (pathname === '/contact') return 'contact';
   if (pathname === '/faq') return 'faq';
+  if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
   if (pathname === '/privacy') return 'privacy';
   if (pathname === '/terms') return 'terms';
   return 'other';
@@ -107,6 +108,9 @@ export default function Header() {
               <Link to="/faq" className={linkNavClass(currentPage === 'faq')}>
                 FAQ
               </Link>
+              <Link to="/blog" className={linkNavClass(currentPage === 'blog')}>
+                Blog
+              </Link>
               <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>
                 Contact
               </Link>
@@ -153,6 +157,9 @@ export default function Header() {
           </Link>
           <Link to="/faq" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'faq')} mt-1`}>
             FAQ
+          </Link>
+          <Link to="/blog" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'blog')} mt-1`}>
+            Blog
           </Link>
           <Link
             to="/contact"
