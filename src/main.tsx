@@ -13,6 +13,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import BlogListPage from './pages/BlogListPage';
 import BlogPage from './pages/BlogPage';
+import ChennaiBudgetFinderPage from './pages/ChennaiBudgetFinderPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -28,6 +29,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/blog" element={<BlogListPage />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
+          <Route path="/chennai-budget-finder" element={<ChennaiBudgetFinderPage />} />
           <Route path="/docs/:slug" element={<DocPage />} />
         </Routes>
       </HomeSearchProvider>

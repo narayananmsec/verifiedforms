@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
 import { useHomeSearch } from '../context/HomeSearchContext';
 
-type NavPage = 'home' | 'blog' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
+type NavPage = 'home' | 'blog' | 'budgetFinder' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
 
 function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/') return 'home';
   if (pathname === '/contact') return 'contact';
   if (pathname === '/faq') return 'faq';
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
+  if (pathname === '/chennai-budget-finder') return 'budgetFinder';
   if (pathname === '/privacy') return 'privacy';
   if (pathname === '/terms') return 'terms';
   return 'other';
@@ -111,6 +112,9 @@ export default function Header() {
               <Link to="/blog" className={linkNavClass(currentPage === 'blog')}>
                 Blog
               </Link>
+              <Link to="/chennai-budget-finder" className={linkNavClass(currentPage === 'budgetFinder')}>
+                Budget Finder
+              </Link>
               <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>
                 Contact
               </Link>
@@ -160,6 +164,13 @@ export default function Header() {
           </Link>
           <Link to="/blog" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'blog')} mt-1`}>
             Blog
+          </Link>
+          <Link
+            to="/chennai-budget-finder"
+            onClick={() => setMenuOpen(false)}
+            className={`${mobileNavClass(currentPage === 'budgetFinder')} mt-1`}
+          >
+            Budget Finder
           </Link>
           <Link
             to="/contact"
