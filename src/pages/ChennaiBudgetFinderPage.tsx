@@ -47,6 +47,7 @@ function parseCSVLine(line: string): string[] {
 
 function parseNumber(raw: string): number {
   const cleaned = raw.replace(/[^\d.]/g, '');
+  if (!cleaned) return Number.NaN;
   const parsed = Number(cleaned);
   return Number.isFinite(parsed) ? parsed : Number.NaN;
 }
@@ -79,8 +80,23 @@ function parseCSV(text: string): AreaRow[] {
     });
 
     const areaName = pickValue(rowMap, ['area', 'areaname', 'location', 'locality', 'name']);
-    const avgPriceRaw = pickValue(rowMap, ['avgprice', 'averageprice', 'pricepersqft', 'avgpricepersqft']);
-    const rentRange = pickValue(rowMap, ['rentrange', 'rent', 'avgrent']) || 'Not specified';
+    const avgPriceRaw = pickValue(rowMap, [
+      'avgprice',
+      'averageprice',
+      'pricepersqft',
+      'avgpricepersqft',
+      'avgpricesqft',
+    ]);
+    const rentMinRaw = pickValue(rowMap, ['rentmin', 'rentminmonth']);
+    const rentMaxRaw = pickValue(rowMap, ['rentmax', 'rentmaxmonth']);
+    const rentRangeDirect = pickValue(rowMap, ['rentrange', 'rent', 'avgrent']);
+    const rentMin = parseNumber(rentMinRaw);
+    const rentMax = parseNumber(rentMaxRaw);
+    const rentRange =
+      rentRangeDirect ||
+      (Number.isFinite(rentMin) && Number.isFinite(rentMax)
+        ? `Rs ${rentMin.toLocaleString()} - Rs ${rentMax.toLocaleString()}/month`
+        : 'Not specified');
     const growthLevel = pickValue(rowMap, ['growthlevel', 'growth']) || 'Not specified';
     const demandLevel = pickValue(rowMap, ['demandlevel', 'demand']) || 'Not specified';
     const avgPrice = parseNumber(avgPriceRaw);
