@@ -4,7 +4,6 @@ import { FileText, TrendingUp } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { Document } from '../types';
 import { documents as seoDocuments } from '../data/documents';
-import type { DocumentData } from '../data/documents';
 
 interface DocumentGridProps {
   searchQuery: string;
@@ -12,12 +11,25 @@ interface DocumentGridProps {
   onDocumentClick: (document: Document) => void;
 }
 
+function findSeoDocument(doc: Pick<Document, 'slug' | 'title' | 'razorpay_link'>) {
+  return (
+    seoDocuments.find((d) => d.paymentLink === doc.razorpay_link) ??
+    seoDocuments.find((d) => d.slug === doc.slug) ??
+    seoDocuments.find((d) => d.title === doc.title)
+  );
+}
+
+function withCanonicalCategory(doc: Document): Document {
+  const seoDoc = findSeoDocument(doc);
+  return seoDoc ? { ...doc, category: seoDoc.category } : doc;
+}
+
 const MOCK_DOCUMENTS: Document[] = seoDocuments.map((doc, idx) => ({
   id: String(idx + 1),
   slug: doc.slug,
   title: doc.title,
   description: doc.description,
-  category: doc.category ?? 'Legal Templates',
+  category: doc.category,
   price: doc.price ?? 9,
   razorpay_link: doc.paymentLink,
   download_link: '', // Razorpay-only downloads; keep placeholder to satisfy the Document type.
@@ -71,8 +83,9 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
       const { data } = await supabase.from('documents').select('*').order('created_at', { ascending: true });
 
       if (data) {
-        setDocuments(data as Document[]);
-        setFeaturedDocs((data as Document[]).filter((doc) => doc.is_featured));
+        const normalized = (data as Document[]).map(withCanonicalCategory);
+        setDocuments(normalized);
+        setFeaturedDocs(normalized.filter((doc) => doc.is_featured));
       } else {
         setDocuments(MOCK_DOCUMENTS);
         setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
@@ -152,10 +165,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
 
 function DocumentCard({ document, onClick }: { document: Document; onClick: () => void }) {
   // Prefer the SEO dataset slug so deep-links match the corresponding /docs/:slug page.
-  const seoDoc: DocumentData | undefined =
-    seoDocuments.find((d) => d.paymentLink === document.razorpay_link) ??
-    seoDocuments.find((d) => d.slug === document.slug) ??
-    seoDocuments.find((d) => d.title === document.title);
+  const seoDoc = findSeoDocument(document);
 
   const cardSlug = seoDoc?.slug ?? document.slug ?? slugify(document.title);
   return (

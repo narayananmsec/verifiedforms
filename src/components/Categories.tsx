@@ -1,4 +1,5 @@
-import { FileText, File, Building, Scroll, Scale } from 'lucide-react';
+import { FileText } from 'lucide-react';
+import { CATEGORY_CONFIG, DOCUMENT_CATEGORIES } from '../data/categories';
 
 interface CategoriesProps {
   selectedCategory: string;
@@ -8,11 +9,10 @@ interface CategoriesProps {
 export default function Categories({ selectedCategory, onCategorySelect }: CategoriesProps) {
   const categories = [
     { name: 'All', icon: FileText, color: 'text-gray-600' },
-    { name: 'Property Deeds', icon: Building, color: 'text-emerald-600' },
-    { name: 'Agreements', icon: File, color: 'text-blue-600' },
-    { name: 'Mortgage Documents', icon: Scroll, color: 'text-orange-600' },
-    { name: 'CMDA Forms', icon: Scale, color: 'text-teal-600' },
-    { name: 'Legal Formats', icon: FileText, color: 'text-indigo-600' },
+    ...DOCUMENT_CATEGORIES.map((name) => ({
+      name,
+      ...CATEGORY_CONFIG[name],
+    })),
   ];
 
   return (

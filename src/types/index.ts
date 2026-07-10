@@ -12,4 +12,4 @@ export interface Document {
   created_at: string;
 }
 
-export type Category = 'Property Deeds' | 'Agreements' | 'Mortgage Documents' | 'CMDA Forms' | 'Legal Formats';
+export type { DocumentCategory as Category } from '../data/categories';
