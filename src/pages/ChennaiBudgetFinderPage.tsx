@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import Footer from '../components/Footer';
 
 const CSV_URL =
   'https://raw.githubusercontent.com/narayananmsec/verified-forms/main/AreaName-MinPricesqft-MaxPricesqft-AvgPricesqft-Re.csv';
@@ -302,6 +303,8 @@ export default function ChennaiBudgetFinderPage() {
           )}
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
