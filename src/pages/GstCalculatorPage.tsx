@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Calculator, RotateCcw } from 'lucide-react';
+import Footer from '../components/Footer';
 
 const GST_RATES = [5, 12, 18, 28];
 
@@ -188,6 +189,8 @@ export default function GstCalculatorPage() {
           </p>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
