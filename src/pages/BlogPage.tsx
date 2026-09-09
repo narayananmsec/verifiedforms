@@ -4,11 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import Footer from '../components/Footer';
 import blogs from '../data/blogs';
 import pattaMutationBlog from '../data/pattaMutationBlog';
+import karnatakaPhodiBlog from '../data/karnatakaPhodiBlog';
 
 export default function BlogPage() {
   const { slug } = useParams();
 
-  const blog = useMemo(() => [pattaMutationBlog, ...blogs].find((entry) => entry.slug === slug), [slug]);
+  const blog = useMemo(() => [karnatakaPhodiBlog, pattaMutationBlog, ...blogs].find((entry) => entry.slug === slug), [slug]);
 
   if (!blog) {
     return (
@@ -30,7 +31,6 @@ export default function BlogPage() {
   }
 
   // Strip any accidental internal citation markers before rendering blog HTML.
-  // This protects the public blog from strings such as citeturn0search18.
   const cleanContent = blog.content
     .replace(/\uE200cite\uE202[^\uE201]*\uE201/g, '')
     .replace(/\uE200url\uE202[^\uE201]*\uE201/g, '')
