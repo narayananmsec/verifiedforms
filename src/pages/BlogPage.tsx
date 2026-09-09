@@ -29,6 +29,13 @@ export default function BlogPage() {
     );
   }
 
+  // Strip any accidental internal citation markers before rendering blog HTML.
+  // This protects the public blog from strings such as citeturn0search18.
+  const cleanContent = blog.content
+    .replace(/\uE200cite\uE202[^\uE201]*\uE201/g, '')
+    .replace(/\uE200url\uE202[^\uE201]*\uE201/g, '')
+    .replace(/\uE200entity\uE202[^\uE201]*\uE201/g, '');
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <Helmet>
@@ -46,7 +53,7 @@ export default function BlogPage() {
             <h1 className="mt-4 text-3xl md:text-5xl font-bold leading-tight text-gray-900">{blog.title}</h1>
             <p className="mt-4 text-base md:text-lg leading-8 text-gray-700">{blog.description}</p>
           </div>
-          <div className="space-y-8 text-gray-800 leading-8 [&_a]:font-semibold [&_a]:text-emerald-700 [&_a:hover]:text-emerald-800 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:md:text-3xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_p]:mt-4 [&_p]:text-base [&_p]:leading-8 [&_p]:text-gray-700 [&_section:first-child_h2]:mt-0 [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-6 [&_li]:text-gray-700" dangerouslySetInnerHTML={{ __html: blog.content }} />
+          <div className="space-y-8 text-gray-800 leading-8 [&_a]:font-semibold [&_a]:text-emerald-700 [&_a:hover]:text-emerald-800 [&_h2]:mt-10 [&_h2]:text-2xl [&_h2]:md:text-3xl [&_h2]:font-bold [&_h2]:text-gray-900 [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-gray-900 [&_p]:mt-4 [&_p]:text-base [&_p]:leading-8 [&_p]:text-gray-700 [&_section:first-child_h2]:mt-0 [&_ul]:mt-4 [&_ul]:list-disc [&_ul]:space-y-3 [&_ul]:pl-6 [&_li]:text-gray-700" dangerouslySetInnerHTML={{ __html: cleanContent }} />
         </article>
       </main>
       <Footer />
