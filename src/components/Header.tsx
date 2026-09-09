@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
 import { useHomeSearch } from '../context/HomeSearchContext';
 
-type NavPage = 'home' | 'blog' | 'budgetFinder' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
+type NavPage = 'home' | 'blog' | 'budgetFinder' | 'gstCalculator' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
 
 function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/') return 'home';
@@ -11,6 +11,7 @@ function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/faq') return 'faq';
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
   if (pathname === '/chennai-budget-finder') return 'budgetFinder';
+  if (pathname === '/gst-calculator') return 'gstCalculator';
   if (pathname === '/privacy') return 'privacy';
   if (pathname === '/terms') return 'terms';
   return 'other';
@@ -115,6 +116,9 @@ export default function Header() {
               <Link to="/chennai-budget-finder" className={linkNavClass(currentPage === 'budgetFinder')}>
                 Budget Finder
               </Link>
+              <Link to="/gst-calculator" className={linkNavClass(currentPage === 'gstCalculator')}>
+                GST Calculator
+              </Link>
               <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>
                 Contact
               </Link>
@@ -152,7 +156,7 @@ export default function Header() {
       <div
         ref={menuRef}
         className={`md:hidden absolute left-0 right-0 top-16 bg-white shadow-lg overflow-hidden transition-all duration-200 ${
-          menuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+          menuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
         }`}
       >
         <div className="px-4 sm:px-6 lg:px-8 py-2">
@@ -171,6 +175,13 @@ export default function Header() {
             className={`${mobileNavClass(currentPage === 'budgetFinder')} mt-1`}
           >
             Budget Finder
+          </Link>
+          <Link
+            to="/gst-calculator"
+            onClick={() => setMenuOpen(false)}
+            className={`${mobileNavClass(currentPage === 'gstCalculator')} mt-1`}
+          >
+            GST Calculator
           </Link>
           <Link
             to="/contact"
