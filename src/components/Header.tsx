@@ -3,15 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Search, FileText } from 'lucide-react';
 import { useHomeSearch } from '../context/HomeSearchContext';
 
-type NavPage = 'home' | 'blog' | 'budgetFinder' | 'gstCalculator' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
+type NavPage = 'home' | 'blog' | 'contact' | 'faq' | 'privacy' | 'terms' | 'other';
 
 function navPageFromPath(pathname: string): NavPage {
   if (pathname === '/') return 'home';
   if (pathname === '/contact') return 'contact';
   if (pathname === '/faq') return 'faq';
   if (pathname === '/blog' || pathname.startsWith('/blog/')) return 'blog';
-  if (pathname === '/chennai-budget-finder') return 'budgetFinder';
-  if (pathname === '/gst-calculator') return 'gstCalculator';
   if (pathname === '/privacy') return 'privacy';
   if (pathname === '/terms') return 'terms';
   return 'other';
@@ -104,24 +102,10 @@ export default function Header() {
 
           <div className="flex items-center shrink-0 relative z-10">
             <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/" className={linkNavClass(currentPage === 'home')}>
-                Home
-              </Link>
-              <Link to="/faq" className={linkNavClass(currentPage === 'faq')}>
-                FAQ
-              </Link>
-              <Link to="/blog" className={linkNavClass(currentPage === 'blog')}>
-                Blog
-              </Link>
-              <Link to="/chennai-budget-finder" className={linkNavClass(currentPage === 'budgetFinder')}>
-                Budget Finder
-              </Link>
-              <Link to="/gst-calculator" className={linkNavClass(currentPage === 'gstCalculator')}>
-                GST Calculator
-              </Link>
-              <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>
-                Contact
-              </Link>
+              <Link to="/" className={linkNavClass(currentPage === 'home')}>Home</Link>
+              <Link to="/faq" className={linkNavClass(currentPage === 'faq')}>FAQ</Link>
+              <Link to="/blog" className={linkNavClass(currentPage === 'blog')}>Blog</Link>
+              <Link to="/contact" className={linkNavClass(currentPage === 'contact')}>Contact</Link>
             </nav>
 
             <button
@@ -160,36 +144,10 @@ export default function Header() {
         }`}
       >
         <div className="px-4 sm:px-6 lg:px-8 py-2">
-          <Link to="/" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'home')} mt-0`}>
-            Home
-          </Link>
-          <Link to="/faq" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'faq')} mt-1`}>
-            FAQ
-          </Link>
-          <Link to="/blog" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'blog')} mt-1`}>
-            Blog
-          </Link>
-          <Link
-            to="/chennai-budget-finder"
-            onClick={() => setMenuOpen(false)}
-            className={`${mobileNavClass(currentPage === 'budgetFinder')} mt-1`}
-          >
-            Budget Finder
-          </Link>
-          <Link
-            to="/gst-calculator"
-            onClick={() => setMenuOpen(false)}
-            className={`${mobileNavClass(currentPage === 'gstCalculator')} mt-1`}
-          >
-            GST Calculator
-          </Link>
-          <Link
-            to="/contact"
-            onClick={() => setMenuOpen(false)}
-            className={`${mobileNavClass(currentPage === 'contact')} mt-1`}
-          >
-            Contact
-          </Link>
+          <Link to="/" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'home')} mt-0`}>Home</Link>
+          <Link to="/faq" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'faq')} mt-1`}>FAQ</Link>
+          <Link to="/blog" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'blog')} mt-1`}>Blog</Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)} className={`${mobileNavClass(currentPage === 'contact')} mt-1`}>Contact</Link>
         </div>
       </div>
     </header>
