@@ -26,47 +26,22 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/" className="hover:text-emerald-500 transition-colors">
-                  Browse Documents
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="hover:text-emerald-500 transition-colors">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link to="/blog" className="hover:text-emerald-500 transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
-                  Contact Us
-                </a>
-              </li>
+              <li><Link to="/" className="hover:text-emerald-500 transition-colors">Browse Documents</Link></li>
+              <li><Link to="/faq" className="hover:text-emerald-500 transition-colors">FAQ</Link></li>
+              <li><Link to="/blog" className="hover:text-emerald-500 transition-colors">Blog</Link></li>
+              <li><Link to="/chennai-budget-finder" className="hover:text-emerald-500 transition-colors">Budget Finder</Link></li>
+              <li><Link to="/gst-calculator" className="hover:text-emerald-500 transition-colors">GST Calculator</Link></li>
+              <li><Link to="/ebitda-calculator" className="hover:text-emerald-500 transition-colors">EBITDA Calculator</Link></li>
+              <li><a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">Contact Us</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-white font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="/privacy" className="hover:text-emerald-500 transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-emerald-500 transition-colors">
-                  Terms & Conditions
-                </Link>
-              </li>
-              <li>
-                <a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">
-                  help@servicelocal.in
-                </a>
-              </li>
+              <li><Link to="/privacy" className="hover:text-emerald-500 transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-emerald-500 transition-colors">Terms & Conditions</Link></li>
+              <li><a href="mailto:help@servicelocal.in" className="hover:text-emerald-500 transition-colors">help@servicelocal.in</a></li>
             </ul>
           </div>
         </div>
