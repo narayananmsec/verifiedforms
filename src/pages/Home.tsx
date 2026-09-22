@@ -9,8 +9,9 @@ import Footer from '../components/Footer';
 import DocumentModal from '../components/DocumentModal';
 import { Document } from '../types';
 import { useHomeSearch } from '../context/HomeSearchContext';
+import { blogs } from '../data/blogs';
 
-const guides = [
+const featuredGuides = [
   {
     title: 'Patta Mutation in Tamil Nadu: Documents & Process',
     description: 'Understand the usual documents, application steps, and checks involved when applying for a patta name transfer.',
@@ -23,6 +24,16 @@ const guides = [
     href: '/blog/karnataka-phodi-process-documents-tamil',
     tag: 'Land records',
   },
+];
+
+const guides = [
+  ...featuredGuides,
+  ...blogs.slice(0, 2).map((blog) => ({
+    title: blog.title,
+    description: blog.description,
+    href: `/blog/${blog.slug}`,
+    tag: 'Practical guide',
+  })),
 ];
 
 const tools = [
@@ -75,8 +86,8 @@ export default function Home() {
       <section className="px-4 py-14" aria-labelledby="guides-heading">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-2"><BookOpen className="h-5 w-5 text-emerald-700" /><p className="text-sm font-semibold uppercase tracking-wider text-emerald-700">Learn before you apply</p></div>
-          <h2 id="guides-heading" className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Property & land-record guides</h2>
-          <p className="text-gray-600 mb-7 max-w-3xl">Explore practical explainers covering common documentation and land-record topics. Each guide is intended to help you prepare and identify what to verify for your specific case.</p>
+          <h2 id="guides-heading" className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">Property, documents & practical guides</h2>
+          <p className="text-gray-600 mb-7 max-w-3xl">Explore practical explainers covering documentation and common processes. Each guide is intended to help you prepare and identify what to verify for your specific case.</p>
           <div className="grid md:grid-cols-2 gap-5">
             {guides.map((guide) => (
               <article key={guide.href} className="rounded-xl border border-gray-200 p-6 hover:shadow-sm transition-shadow">
@@ -94,7 +105,7 @@ export default function Home() {
       <section className="px-4 py-12 bg-emerald-50/60" aria-labelledby="templates-heading">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-5">
           <div className="max-w-3xl"><div className="flex items-center gap-2 text-emerald-700 mb-2"><FileText className="h-5 w-5" /><span className="text-sm font-semibold uppercase tracking-wider">Document library</span></div><h2 id="templates-heading" className="text-2xl font-bold text-gray-900 mb-2">Looking for a specific document template?</h2><p className="text-gray-600 leading-6">Browse templates by category, review the available document details, and choose the file that fits your needs. Check local requirements before using any template for an official submission.</p></div>
-          <button onClick={() => document.getElementById('documents')?.scrollIntoView({ behavior: 'smooth' })} className="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-700 text-white px-6 py-3 font-semibold hover:bg-emerald-800 transition-colors">Browse templates <ArrowRight className="h-4 w-4" /></button>
+          <Link to="/templates" className="shrink-0 inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-700 text-white px-6 py-3 font-semibold hover:bg-emerald-800 transition-colors">Browse all templates <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </section>
 
