@@ -16,6 +16,7 @@ import BlogPage from './pages/BlogPage';
 import ChennaiBudgetFinderPage from './pages/ChennaiBudgetFinderPage';
 import GstCalculatorPage from './pages/GstCalculatorPage';
 import EbitdaCalculatorPage from './pages/EbitdaCalculatorPage';
+import TemplatesPage from './pages/TemplatesPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/blog" element={<BlogListPage />} />
           <Route path="/blog/:slug" element={<BlogPage />} />
+          <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/chennai-budget-finder" element={<ChennaiBudgetFinderPage />} />
           <Route path="/gst-calculator" element={<GstCalculatorPage />} />
           <Route path="/ebitda-calculator" element={<EbitdaCalculatorPage />} />
