@@ -1,14 +1,25 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useParams } from 'react-router-dom';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import Footer from '../components/Footer';
 import blogs from '../data/blogs';
 import pattaMutationBlog from '../data/pattaMutationBlog';
 import karnatakaPhodiBlog from '../data/karnatakaPhodiBlog';
 import companyRegistrationBlog from '../data/companyRegistrationBlog';
 
+const companyRegistrationFaqs = [
+  { question: 'How many people are required to start a Private Limited Company?', answer: 'A Private Limited Company has specific requirements for members and directors under the Companies Act. If you are starting alone, an OPC may be another structure to consider.' },
+  { question: 'How long does Private Limited Company registration take?', answer: 'The timeline varies depending on name approval, document accuracy, MCA processing and whether clarification or resubmission is required.' },
+  { question: 'What documents are generally required for company registration?', answer: 'Common requirements include identity and address information for proposed directors and subscribers, registered office proof and other documents applicable to the company and its circumstances.' },
+  { question: 'Is a registered office required?', answer: 'Yes. A company is required to have a registered office as provided under company law. The supporting proof depends on whether the premises are owned, rented or otherwise occupied.' },
+  { question: 'Is GST registration compulsory when a company is incorporated?', answer: 'Not automatically in every case. GST registration depends on the applicable GST law and the nature and circumstances of the business.' },
+  { question: 'What is SPICe+ used for?', answer: 'SPICe+ is MCA’s integrated incorporation process. It covers company incorporation and linked services such as DIN allotment and PAN and TAN allocation, with other services available where applicable.' },
+];
+
 export default function BlogPage() {
   const { slug } = useParams();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const blog = useMemo(() => [companyRegistrationBlog, karnatakaPhodiBlog, pattaMutationBlog, ...blogs].find((entry) => entry.slug === slug), [slug]);
 
@@ -26,7 +37,25 @@ export default function BlogPage() {
             <Link to="/blog" className="mt-6 inline-flex items-center rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-700">Back to Blog</Link>
           </div>
         </main>
-        <Footer />
+        {blog.slug === 'how-to-register-private-limited-company-india' && (
+        <section className="max-w-4xl mx-auto mt-8 mb-12 rounded-3xl bg-white p-6 md:p-10 shadow-xl shadow-emerald-100/70">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">Related FAQs</h2>
+          <p className="mt-2 text-gray-600">Tap a question to view the answer.</p>
+          <div className="mt-6 space-y-3">
+            {companyRegistrationFaqs.map((faq, index) => (
+              <div key={faq.question} className="border border-gray-200 rounded-xl overflow-hidden">
+                <button type="button" onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-gray-50">
+                  <span className="font-semibold text-gray-900">{faq.question}</span>
+                  {openFaq === index ? <ChevronUp className="h-5 w-5 text-emerald-600 flex-shrink-0" /> : <ChevronDown className="h-5 w-5 text-gray-400 flex-shrink-0" />}
+                </button>
+                {openFaq === index && <div className="px-5 pb-5 text-gray-700 leading-7">{faq.answer}</div>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <Footer />
       </div>
     );
   }
