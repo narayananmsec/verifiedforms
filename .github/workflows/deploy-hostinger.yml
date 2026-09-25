@@ -56,6 +56,7 @@ jobs:
           mkdir -p dist/api
           cp api/health.php dist/api/health.php
           cp api/create-order.php dist/api/create-order.php
+          cp api/verify-payment.php dist/api/verify-payment.php
           cp api/.htaccess dist/api/.htaccess
           python3 - <<'PY'
           import os
