@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import Footer from '../components/Footer';
 
 const CSV_URL =
-  'https://raw.githubusercontent.com/narayananmsec/verified-forms/main/AreaName-MinPricesqft-MaxPricesqft-AvgPricesqft-Re.csv';
+  '/chennai-property-prices.csv';
 
 type AreaRow = { areaName: string; avgPrice: number; rentRange: string; growthLevel: string; demandLevel: string };
 
