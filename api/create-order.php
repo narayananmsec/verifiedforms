@@ -40,8 +40,8 @@ try {
         json_response(['success' => false, 'error' => 'Document not found'], 404);
     }
 
-    $keyId = getenv('RAZORPAY_KEY_ID') ?: '';
-    $keySecret = getenv('RAZORPAY_KEY_SECRET') ?: '';
+    $keyId = razorpay_key_id();
+    $keySecret = razorpay_key_secret();
 
     if ($keyId === '' || $keySecret === '') {
         json_response(['success' => false, 'error' => 'Payment configuration missing'], 500);
