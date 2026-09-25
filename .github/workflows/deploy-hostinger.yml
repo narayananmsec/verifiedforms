@@ -44,6 +44,53 @@ jobs:
           </IfModule>
           EOF
 
+      - name: Prepare PHP API
+        env:
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          mkdir -p dist/api
+          cp api/health.php dist/api/health.php
+          cp api/.htaccess dist/api/.htaccess
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+
+          def php_quote(value):
+              return "'" + value.replace("\\", "\\\\").replace("'", "\\'") + "'"
+
+          config = f"""<?php
+          declare(strict_types=1);
+
+          function db(): PDO
+          {{
+              static $pdo = null;
+
+              if ($pdo instanceof PDO) {{
+                  return $pdo;
+              }}
+
+              $host = {php_quote(os.environ['DB_HOST'])};
+              $name = {php_quote(os.environ['DB_NAME'])};
+              $user = {php_quote(os.environ['DB_USER'])};
+              $pass = {php_quote(os.environ['DB_PASSWORD'])};
+
+              $dsn = "mysql:host={{$host}};dbname={{$name}};charset=utf8mb4";
+
+              $pdo = new PDO($dsn, $user, $pass, [
+                  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                  PDO::ATTR_EMULATE_PREPARES => false,
+              ]);
+
+              return $pdo;
+          }}
+          """
+          Path("dist/api/config.php").write_text(config, encoding="utf-8")
+          PY
+
       - name: Deploy to Hostinger via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
