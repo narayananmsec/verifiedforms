@@ -32,7 +32,7 @@ const MOCK_DOCUMENTS: Document[] = seoDocuments.map((doc, idx) => ({
   category: doc.category,
   price: doc.price ?? 9,
   razorpay_link: doc.paymentLink,
-  download_link: '', // Razorpay-only downloads; keep placeholder to satisfy the Document type.
+  download_link: '',
   is_featured: true,
   download_count: 0,
   created_at: new Date().toISOString(),
@@ -50,7 +50,6 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   const [documents, setDocuments] = useState<Document[]>([]);
   const [featuredDocs, setFeaturedDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
 
   useEffect(() => {
@@ -58,17 +57,13 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   }, []);
 
   useEffect(() => {
-    // Keep UI responsive and treat "  " as empty input.
-    const normalized = searchQuery.trim();
-    setSearchTerm(normalized);
-  }, [searchQuery]);
-
-  useEffect(() => {
+    const normalized = searchQuery.trim().toLowerCase();
     const t = window.setTimeout(() => {
-      setDebouncedSearchTerm(searchTerm);
-    }, 300);
+      setDebouncedSearchTerm(normalized);
+    }, 150);
+
     return () => window.clearTimeout(t);
-  }, [searchTerm]);
+  }, [searchQuery]);
 
   async function fetchDocuments() {
     setLoading(true);
@@ -100,12 +95,23 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   }
 
   const filteredDocuments = documents.filter((doc) => {
-    const term = debouncedSearchTerm.trim().toLowerCase();
-    const title = (doc.title ?? '').toLowerCase();
-    const matchesSearch = term === '' || title.includes(term);
+    const term = debouncedSearchTerm;
+    const searchableText = [
+      doc.title,
+      doc.description,
+      doc.category,
+      doc.slug,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+
+    const matchesSearch = term === '' || searchableText.includes(term);
     const matchesCategory = selectedCategory === 'All' || doc.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  const hasSearch = debouncedSearchTerm !== '';
 
   if (loading) {
     return (
@@ -121,7 +127,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   return (
     <section className="py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        {searchQuery === '' && selectedCategory === 'All' && featuredDocs.length > 0 && (
+        {!hasSearch && selectedCategory === 'All' && featuredDocs.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center space-x-2 mb-6">
               <TrendingUp className="h-6 w-6 text-emerald-600" />
@@ -139,7 +145,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
 
         <div className="mb-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-            {selectedCategory === 'All' ? 'All Documents' : selectedCategory}
+            {hasSearch ? `Search results for "${searchQuery.trim()}"` : selectedCategory === 'All' ? 'All Documents' : selectedCategory}
           </h2>
           <p className="text-gray-600 mt-2">
             {filteredDocuments.length} {filteredDocuments.length === 1 ? 'document' : 'documents'} available
@@ -150,6 +156,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
           <div className="text-center py-12">
             <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-600">No documents found</p>
+            <p className="text-sm text-gray-500 mt-2">Try a different document name, category, or keyword.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -164,10 +171,9 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
 }
 
 function DocumentCard({ document, onClick }: { document: Document; onClick: () => void }) {
-  // Prefer the SEO dataset slug so deep-links match the corresponding /docs/:slug page.
   const seoDoc = findSeoDocument(document);
-
   const cardSlug = seoDoc?.slug ?? document.slug ?? slugify(document.title);
+
   return (
     <div
       onClick={onClick}
