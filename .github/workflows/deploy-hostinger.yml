@@ -50,17 +50,14 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
-          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
         run: |
           mkdir -p dist/api
           cp api/health.php dist/api/health.php
-          cp api/create-order.php dist/api/create-order.php
-          cp api/verify-payment.php dist/api/verify-payment.php
           cp api/download.php dist/api/download.php
           mkdir -p dist/private-documents
           cp private-documents/.htaccess dist/private-documents/.htaccess
           cp api/.htaccess dist/api/.htaccess
+
           python3 - <<'PY'
           import os
           from pathlib import Path
@@ -93,16 +90,6 @@ jobs:
               ]);
 
               return $pdo;
-          }}
-
-          function razorpay_key_id(): string
-          {{
-              return {php_quote(os.environ['RAZORPAY_KEY_ID'])};
-          }}
-
-          function razorpay_key_secret(): string
-          {{
-              return {php_quote(os.environ['RAZORPAY_KEY_SECRET'])};
           }}
           """
           Path("dist/api/config.php").write_text(config, encoding="utf-8")
