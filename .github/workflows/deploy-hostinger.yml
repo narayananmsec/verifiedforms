@@ -90,11 +90,17 @@ jobs:
 
               return $pdo;
           }}
+
+          function razorpay_key_id(): string
+          {{
+              return {php_quote(os.environ['RAZORPAY_KEY_ID'])};
+          }}
+
+          function razorpay_key_secret(): string
+          {{
+              return {php_quote(os.environ['RAZORPAY_KEY_SECRET'])};
+          }}
           """
-          config += "\n\\$GLOBALS['RAZORPAY_KEY_ID'] = " + php_quote(os.environ['RAZORPAY_KEY_ID']) + ";\n"
-          config += "\\$GLOBALS['RAZORPAY_KEY_SECRET'] = " + php_quote(os.environ['RAZORPAY_KEY_SECRET']) + ";\n"
-          config += "\nfunction razorpay_key_id(): string { return \\$GLOBALS['RAZORPAY_KEY_ID']; }\n"
-          config += "function razorpay_key_secret(): string { return \\$GLOBALS['RAZORPAY_KEY_SECRET']; }\n"
           Path("dist/api/config.php").write_text(config, encoding="utf-8")
           PY
 
