@@ -5,11 +5,12 @@ import Footer from '../components/Footer';
 import blogs from '../data/blogs';
 import pattaMutationBlog from '../data/pattaMutationBlog';
 import karnatakaPhodiBlog from '../data/karnatakaPhodiBlog';
+import companyRegistrationBlog from '../data/companyRegistrationBlog';
 
 export default function BlogPage() {
   const { slug } = useParams();
 
-  const blog = useMemo(() => [karnatakaPhodiBlog, pattaMutationBlog, ...blogs].find((entry) => entry.slug === slug), [slug]);
+  const blog = useMemo(() => [companyRegistrationBlog, karnatakaPhodiBlog, pattaMutationBlog, ...blogs].find((entry) => entry.slug === slug), [slug]);
 
   if (!blog) {
     return (
