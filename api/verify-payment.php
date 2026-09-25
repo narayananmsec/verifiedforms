@@ -60,6 +60,9 @@ try {
         json_response(['success' => false, 'error' => 'Payment verification failed'], 400);
     }
 
+    $token = bin2hex(random_bytes(32));
+    $expiresAt = date('Y-m-d H:i:s', time() + 1800);
+
     $update = $pdo->prepare(
         'UPDATE orders
          SET razorpay_payment_id = ?,
@@ -81,12 +84,28 @@ try {
         }
     }
 
+    $downloadInsert = $pdo->prepare(
+        'INSERT INTO downloads
+            (order_id, document_id, download_token, expires_at)
+         VALUES (?, ?, ?, ?)'
+    );
+    $downloadInsert->execute([
+        $order['id'],
+        $order['document_id'],
+        $token,
+        $expiresAt,
+    ]);
+
+    $downloadUrl = '/api/download.php?token=' . rawurlencode($token);
+
     json_response([
         'success' => true,
         'status' => 'paid',
         'order_id' => $orderId,
         'payment_id' => $paymentId,
         'document_id' => (int) $order['document_id'],
+        'download_url' => $downloadUrl,
+        'expires_at' => $expiresAt,
         'message' => 'Payment verified successfully'
     ]);
 } catch (Throwable $e) {
