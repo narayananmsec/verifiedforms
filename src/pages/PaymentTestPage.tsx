@@ -36,7 +36,25 @@ export default function PaymentTestPage() {
 
     try {
       if (!window.Razorpay) {
-        throw new Error('Razorpay Checkout is still loading. Please refresh and try again.');
+        await new Promise<void>((resolve, reject) => {
+          const existing = document.querySelector('script[src="https://checkout.razorpay.com/v1/checkout.js"]');
+          if (existing) {
+            existing.addEventListener('load', () => resolve(), { once: true });
+            existing.addEventListener('error', () => reject(new Error('Razorpay Checkout could not be loaded.')), { once: true });
+            return;
+          }
+
+          const script = document.createElement('script');
+          script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+          script.async = true;
+          script.onload = () => resolve();
+          script.onerror = () => reject(new Error('Razorpay Checkout could not be loaded.'));
+          document.head.appendChild(script);
+        });
+      }
+
+      if (!window.Razorpay) {
+        throw new Error('Razorpay Checkout is unavailable. Please disable any browser extension blocking Razorpay and refresh.');
       }
 
       const response = await fetch('/api/create-order.php', {
