@@ -1,4 +1,4 @@
-import { X, FileText, ExternalLink } from 'lucide-react';
+import { X, FileText } from 'lucide-react';
 import { Document } from '../types';
 
 interface DocumentModalProps {
@@ -57,15 +57,13 @@ export default function DocumentModal({ document, onClose }: DocumentModalProps)
                 <span>Ready to use template</span>
               </li>
             </ul>
-            <a
-              href={document.razorpay_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center space-x-2 bg-emerald-600 text-white px-6 py-4 rounded-lg font-semibold hover:bg-emerald-700 transition-colors shadow-lg hover:shadow-xl"
+            <button
+              type="button"
+              disabled
+              className="w-full inline-flex items-center justify-center bg-gray-300 text-gray-600 px-6 py-4 rounded-lg font-semibold cursor-not-allowed"
             >
-              <span>Pay & Download</span>
-              <ExternalLink className="h-5 w-5" />
-            </a>
+              Payment coming soon
+            </button>
           </div>
 
           <div className="bg-gray-50 rounded-xl p-6">
@@ -75,19 +73,19 @@ export default function DocumentModal({ document, onClose }: DocumentModalProps)
                 <span className="flex-shrink-0 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
                   1
                 </span>
-                <span>Click "Pay & Download" button above</span>
+                <span>Choose the document you need</span>
               </li>
               <li className="flex items-start space-x-3">
                 <span className="flex-shrink-0 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
                   2
                 </span>
-                <span>Complete payment securely via Razorpay</span>
+                <span>Complete payment through the available payment option</span>
               </li>
               <li className="flex items-start space-x-3">
                 <span className="flex-shrink-0 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-xs">
                   3
                 </span>
-                <span>Download your document immediately</span>
+                <span>Download your document securely</span>
               </li>
             </ol>
           </div>
