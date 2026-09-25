@@ -53,7 +53,6 @@ jobs:
         run: |
           mkdir -p dist/api
           cp api/health.php dist/api/health.php
-          cp api/download.php dist/api/download.php
           mkdir -p dist/private-documents
           cp private-documents/.htaccess dist/private-documents/.htaccess
           cp api/.htaccess dist/api/.htaccess
