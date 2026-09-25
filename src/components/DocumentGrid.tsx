@@ -50,20 +50,9 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   const [documents, setDocuments] = useState<Document[]>([]);
   const [featuredDocs, setFeaturedDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
-
   useEffect(() => {
     fetchDocuments();
   }, []);
-
-  useEffect(() => {
-    const normalized = searchQuery.trim().toLowerCase();
-    const t = window.setTimeout(() => {
-      setDebouncedSearchTerm(normalized);
-    }, 150);
-
-    return () => window.clearTimeout(t);
-  }, [searchQuery]);
 
   async function fetchDocuments() {
     setLoading(true);
@@ -95,7 +84,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   }
 
   const filteredDocuments = documents.filter((doc) => {
-    const term = debouncedSearchTerm;
+    const term = searchQuery.trim().toLowerCase();
     const searchableText = [
       doc.title,
       doc.description,
@@ -111,7 +100,7 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
     return matchesSearch && matchesCategory;
   });
 
-  const hasSearch = debouncedSearchTerm !== '';
+  const hasSearch = searchQuery.trim() !== '';
 
   if (loading) {
     return (
