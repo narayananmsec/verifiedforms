@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function FAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const faqs = [
     {
       question: 'How does the download process work?',
-      answer: 'After clicking "Pay & Download", you will be redirected to Razorpay for secure payment. Once payment is completed, you will receive immediate access to download your document in editable format.',
+      answer: 'After the payment system is available, you will be guided through the payment process and given access to the purchased document according to the selected product.',
     },
     {
       question: 'Are these documents legally valid?',
-      answer: 'Yes, all our templates are verified and follow standard legal formats used in India. However, we recommend consulting with a legal professional for your specific case to ensure all requirements are met.',
+      answer: 'Our documents are provided for informational and document preparation purposes. Requirements can vary by document, state and situation, so check the latest applicable rules before filing.',
     },
     {
       question: 'What is your refund policy?',
@@ -19,15 +19,15 @@ export default function FAQ() {
     },
     {
       question: 'Can I use these documents for commercial purposes?',
-      answer: 'Yes, once purchased, you can use these documents for personal or commercial purposes. You can modify them as needed for your specific requirements.',
+      answer: 'Usage rights depend on the individual product and its stated terms. Check the product description before purchasing.',
     },
     {
       question: 'What if I face payment issues?',
-      answer: 'If you encounter any payment issues, please contact us at help@servicelocal.in with your transaction details. We will resolve the issue within 24 hours.',
+      answer: 'If you experience a payment or download problem, contact us at help@servicelocal.in with the relevant transaction or order details.',
     },
     {
       question: 'What format are the documents in?',
-      answer: 'All documents are provided in editable formats (Word/PDF) that you can easily customize according to your needs.',
+      answer: 'The available format is shown on each document page. Depending on the product, a document may be provided as PDF, Word or another specified format.',
     },
   ];
 
