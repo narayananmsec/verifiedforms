@@ -50,6 +50,8 @@ jobs:
           DB_NAME: ${{ secrets.DB_NAME }}
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
+          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
         run: |
           mkdir -p dist/api
           cp api/health.php dist/api/health.php
@@ -88,6 +90,10 @@ jobs:
               return $pdo;
           }}
           """
+          config += "\n\\$GLOBALS['RAZORPAY_KEY_ID'] = " + php_quote(os.environ['RAZORPAY_KEY_ID']) + ";\n"
+          config += "\\$GLOBALS['RAZORPAY_KEY_SECRET'] = " + php_quote(os.environ['RAZORPAY_KEY_SECRET']) + ";\n"
+          config += "\nfunction razorpay_key_id(): string { return \\$GLOBALS['RAZORPAY_KEY_ID']; }\n"
+          config += "function razorpay_key_secret(): string { return \\$GLOBALS['RAZORPAY_KEY_SECRET']; }\n"
           Path("dist/api/config.php").write_text(config, encoding="utf-8")
           PY
 
