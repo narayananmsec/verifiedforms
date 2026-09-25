@@ -5,7 +5,6 @@ export interface Document {
   description: string;
   category: string;
   price: number;
-  razorpay_link: string;
   download_link: string;
   is_featured: boolean;
   download_count: number;
