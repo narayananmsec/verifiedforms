@@ -17,7 +17,6 @@ import ChennaiBudgetFinderPage from './pages/ChennaiBudgetFinderPage';
 import GstCalculatorPage from './pages/GstCalculatorPage';
 import EbitdaCalculatorPage from './pages/EbitdaCalculatorPage';
 import TemplatesPage from './pages/TemplatesPage';
-import PaymentTestPage from './pages/PaymentTestPage';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -38,7 +37,6 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/gst-calculator" element={<GstCalculatorPage />} />
           <Route path="/ebitda-calculator" element={<EbitdaCalculatorPage />} />
           <Route path="/docs/:slug" element={<DocPage />} />
-          <Route path="/payment-test" element={<PaymentTestPage />} />
         </Routes>
       </HomeSearchProvider>
     </BrowserRouter>
