@@ -5,10 +5,11 @@ import Footer from '../components/Footer';
 import blogs from '../data/blogs';
 import pattaMutationBlog from '../data/pattaMutationBlog';
 import karnatakaPhodiBlog from '../data/karnatakaPhodiBlog';
+import companyRegistrationBlog from '../data/companyRegistrationBlog';
 
 export default function BlogListPage() {
   const [languageFilter, setLanguageFilter] = useState<'all' | 'ta' | 'en'>('all');
-  const allBlogs = useMemo(() => [karnatakaPhodiBlog, pattaMutationBlog, ...blogs], []);
+  const allBlogs = useMemo(() => [companyRegistrationBlog, karnatakaPhodiBlog, pattaMutationBlog, ...blogs], []);
 
   const filteredBlogs = useMemo(() => {
     if (languageFilter === 'all') return allBlogs;
