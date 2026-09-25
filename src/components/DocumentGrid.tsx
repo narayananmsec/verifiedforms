@@ -7,7 +7,6 @@ import { documents as seoDocuments } from '../data/documents';
 
 interface DocumentGridProps {
   searchQuery: string;
-  selectedCategory: string;
   onDocumentClick: (document: Document) => void;
 }
 
@@ -46,9 +45,8 @@ function slugify(input: string) {
     .replace(/(^-|-$)/g, '');
 }
 
-export default function DocumentGrid({ searchQuery, selectedCategory, onDocumentClick }: DocumentGridProps) {
+export default function DocumentGrid({ searchQuery, onDocumentClick }: DocumentGridProps) {
   const [documents, setDocuments] = useState<Document[]>([]);
-  const [featuredDocs, setFeaturedDocs] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     fetchDocuments();
@@ -58,7 +56,6 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
     setLoading(true);
     if (!isSupabaseConfigured || !supabase) {
       setDocuments(MOCK_DOCUMENTS);
-      setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
       setLoading(false);
       return;
     }
@@ -69,16 +66,13 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
       if (data) {
         const normalized = (data as Document[]).map(withCanonicalCategory);
         setDocuments(normalized);
-        setFeaturedDocs(normalized.filter((doc) => doc.is_featured));
       } else {
         setDocuments(MOCK_DOCUMENTS);
-        setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
       }
     } catch (err) {
       console.error('Error fetching documents:', err);
       setDocuments(MOCK_DOCUMENTS);
-      setFeaturedDocs(MOCK_DOCUMENTS.filter((doc) => doc.is_featured));
-    } finally {
+      } finally {
       setLoading(false);
     }
   }
@@ -96,11 +90,13 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
       .toLowerCase();
 
     const matchesSearch = term === '' || searchableText.includes(term);
-    const matchesCategory = selectedCategory === 'All' || doc.category === selectedCategory;
-    return matchesSearch && matchesCategory;
+    return matchesSearch;
   });
 
   const hasSearch = searchQuery.trim() !== '';
+  const mostDownloadedDocs = [...documents]
+    .sort((a, b) => (b.download_count ?? 0) - (a.download_count ?? 0))
+    .slice(0, 6);
 
   if (loading) {
     return (
@@ -116,44 +112,38 @@ export default function DocumentGrid({ searchQuery, selectedCategory, onDocument
   return (
     <section className="py-16 px-4 bg-white">
       <div className="max-w-6xl mx-auto">
-        {!hasSearch && selectedCategory === 'All' && featuredDocs.length > 0 && (
-          <div className="mb-12">
-            <div className="flex items-center space-x-2 mb-6">
-              <TrendingUp className="h-6 w-6 text-emerald-600" />
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-                Most Downloaded Documents
-              </h2>
-            </div>
+        <div className="mb-8">
+          <div className="flex items-center space-x-2 mb-6">
+            <TrendingUp className="h-6 w-6 text-emerald-600" />
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+              {hasSearch ? `Search results for "${searchQuery.trim()}"` : 'Most Downloaded Documents'}
+            </h2>
+          </div>
+          {!hasSearch && mostDownloadedDocs.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredDocs.map((doc) => (
+              {mostDownloadedDocs.map((doc) => (
                 <DocumentCard key={doc.id} document={doc} onClick={() => onDocumentClick(doc)} />
               ))}
             </div>
-          </div>
-        )}
-
-        <div className="mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-            {hasSearch ? `Search results for "${searchQuery.trim()}"` : selectedCategory === 'All' ? 'All Documents' : selectedCategory}
-          </h2>
+          )}
           <p className="text-gray-600 mt-2">
-            {filteredDocuments.length} {filteredDocuments.length === 1 ? 'document' : 'documents'} available
+            {hasSearch ? `${filteredDocuments.length} ${filteredDocuments.length === 1 ? 'document' : 'documents'} found` : ''}
           </p>
         </div>
 
-        {filteredDocuments.length === 0 ? (
+        {hasSearch && filteredDocuments.length === 0 ? (
           <div className="text-center py-12">
             <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
             <p className="text-gray-600">No documents found</p>
             <p className="text-sm text-gray-500 mt-2">Try a different document name, category, or keyword.</p>
           </div>
-        ) : (
+        ) : hasSearch ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDocuments.map((doc) => (
               <DocumentCard key={doc.id} document={doc} onClick={() => onDocumentClick(doc)} />
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );
