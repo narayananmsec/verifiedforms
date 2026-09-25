@@ -93,19 +93,6 @@ export default {
       <p>Another common issue is inconsistency between names, addresses and identification details across documents. Registered office documents should also be checked carefully before submission.</p>
     </section>
     <section>
-      <h2>Frequently Asked Questions</h2>
-      <h3>Can one person register a Private Limited Company?</h3>
-      <p>A Private Limited Company has specific requirements relating to members and directors. A person starting alone may also consider an OPC or another structure depending on their circumstances.</p>
-      <h3>Is DSC required for company registration?</h3>
-      <p>Digital signatures are used for signing applicable electronic incorporation forms and documents. The exact requirement depends on the persons who need to sign.</p>
-      <h3>Is GST registration automatically required?</h3>
-      <p>Not necessarily. GST registration depends on the applicable GST law and the business's circumstances.</p>
-      <h3>Can I register a company without an office?</h3>
-      <p>A company needs a registered office as required under company law. The supporting documentation can vary depending on whether the premises are owned, rented or otherwise occupied.</p>
-      <h3>Can I choose any company name?</h3>
-      <p>No. The proposed name must comply with applicable naming requirements and may be rejected if it conflicts with existing names, trademarks or other restrictions.</p>
-    </section>
-    <section>
       <h2>Final Thoughts</h2>
       <p>Registering a Private Limited Company becomes easier when the process is prepared in the correct order. Start with the business structure, choose a suitable name, prepare the director and subscriber information, arrange the registered office documents and complete the applicable SPICe+ process through MCA.</p>
       <p>Always check the latest MCA requirements before filing because forms, procedures and regulatory requirements can change.</p>
