@@ -118,3 +118,6 @@ jobs:
           port: 21
           local-dir: dist/
           server-dir: ./
+          exclude: |
+            **/.ftp-deploy-sync-state.json
+            private-documents/**
